@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xgh-user.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="需要掌握的内容： 理解java的加载与执行 能够自己搭建java的开发环境 能够独立编写HelloWorld程序，编译并运行 掌握环境变量path的原理以及如何配置 掌握环境变量classpath的原理以及如何配置 java中的注释 public class 和 class 的区别  1、计算机结构：计算机包括：  硬件 CPU：中央处理器，负责计算机的核心运算，它是计算机的最核心部件，指挥官。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="01关于java">
+<meta property="og:url" content="http://xgh-user.github.io/2020/11/09/01%E5%85%B3%E4%BA%8Ejava/index.html">
+<meta property="og:site_name" content="_little-star_">
+<meta property="og:description" content="需要掌握的内容： 理解java的加载与执行 能够自己搭建java的开发环境 能够独立编写HelloWorld程序，编译并运行 掌握环境变量path的原理以及如何配置 掌握环境变量classpath的原理以及如何配置 java中的注释 public class 和 class 的区别  1、计算机结构：计算机包括：  硬件 CPU：中央处理器，负责计算机的核心运算，它是计算机的最核心部件，指挥官。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-11-08T19:04:16.000Z">
+<meta property="article:modified_time" content="2020-11-09T17:53:24.051Z">
+<meta property="article:author" content="_little-star_">
+<meta property="article:tag" content="javase">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://xgh-user.github.io/2020/11/09/01%E5%85%B3%E4%BA%8Ejava/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>01关于java | _little-star_</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="_little-star_" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">_little-star_</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">学习的博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://xgh-user.github.io/2020/11/09/01%E5%85%B3%E4%BA%8Ejava/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="_little-star_">
+      <meta itemprop="description" content="记录个人在平时学习的过程中的一些笔记、感受与遇到的坑,例如：java、计算机考研四件套等等。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="_little-star_">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          01关于java
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-09 03:04:16" itemprop="dateCreated datePublished" datetime="2020-11-09T03:04:16+08:00">2020-11-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-10 01:53:24" itemprop="dateModified" datetime="2020-11-10T01:53:24+08:00">2020-11-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javase/" itemprop="url" rel="index"><span itemprop="name">javase</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javase/%E5%85%B3%E4%BA%8Ejava/" itemprop="url" rel="index"><span itemprop="name">关于java</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="需要掌握的内容："><a href="#需要掌握的内容：" class="headerlink" title="需要掌握的内容："></a>需要掌握的内容：</h3><ul>
+<li>理解java的加载与执行</li>
+<li>能够自己搭建java的开发环境</li>
+<li>能够独立编写HelloWorld程序，编译并运行</li>
+<li>掌握环境变量path的原理以及如何配置</li>
+<li>掌握环境变量classpath的原理以及如何配置</li>
+<li>java中的注释</li>
+<li>public class 和 class 的区别</li>
+</ul>
+<h3 id="1、计算机结构："><a href="#1、计算机结构：" class="headerlink" title="1、计算机结构："></a>1、计算机结构：</h3><p>计算机包括：</p>
+<ul>
+<li>硬件<ul>
+<li>CPU：中央处理器，负责计算机的核心运算，它是计算机的最核心部件，指挥官。 1 + 1 = 2</li>
+<li>内存：临时存储区域，程序在运行的过程当中，一些数据的临时存储区域。</li>
+<li>主板：链接各个部件</li>
+<li>显卡</li>
+<li>声卡</li>
+<li>鼠标</li>
+<li>键盘</li>
+<li>硬盘【外存】：永久性保存，断电之后再启动，数据仍然存在。<br>…..</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>软件</p>
+<ul>
+<li><p>系统软件</p>
+<ul>
+<li><p>windows系列的</p>
+</li>
+<li><p>winxp</p>
+</li>
+<li><p>win7<br>….</p>
+</li>
+<li><p>Linux系列的</p>
+</li>
+<li><p>Red Hat</p>
+</li>
+<li><p>Fedora</p>
+</li>
+<li><p>SUN Solaris<br>….</p>
+</li>
+</ul>
+</li>
+<li><p>应用软件</p>
+<ul>
+<li><p>QQ</p>
+</li>
+<li><p>百度云管家</p>
+</li>
+<li><p>Office办公软件</p>
+</li>
+</ul>
+<p>…..</p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>总结：</p>
+<ul>
+<li><p>应用软件是运行在系统软件当中的，系统软件和底层硬盘交互。</p>
+</li>
+<li><p>Java编程语言可以：完成应用软件的开发。</p>
+</li>
+<li><p>可以用一个功能比记事本强大的文本编辑器进行java程序的编写。</p>
+</li>
+<li><p>windows操作系统默认情况下是不显示文件扩展名的，作为程序员必须将文件的扩展名显示出来：</p>
+<ul>
+<li>计算机 –&gt; 组织 –&gt; 文件夹和搜索选项 –&gt; 查看 –&gt; 隐藏已知文件类型的扩展名【对勾去掉】           win7</li>
+<li>计算机 –&gt; 查看 –&gt; 隐藏已知文件类型的扩展名【对勾去掉】                                        win10</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2、windows操作系统当中常用的DOS命令："><a href="#2、windows操作系统当中常用的DOS命令：" class="headerlink" title="2、windows操作系统当中常用的DOS命令："></a>2、windows操作系统当中常用的DOS命令：</h3><ul>
+<li><p>什么是DOS命令呢？</p>
+<p>在DOS命令窗口中才可以输入并执行DOS命令。<br>在最初的windows计算机中没有图形界面的，只有DOS命令窗口<br>也就是说通过执行DOS命令窗口可以完全完成文件的新建、编辑、保存、删除等一系列操作。</p>
+</li>
+<li><p>不使用UI界面，使用DOS命令可以完成所有的操作。</p>
+</li>
+<li><p>在DOS命令窗口中可以执行DOS命令</p>
+</li>
+<li><p>打开DOS命令窗口：</p>
+<ul>
+<li>快捷键：win + r，打开运行窗口</li>
+<li>输入cmd回车</li>
+</ul>
+</li>
+<li><p>查看IP地址：</p>
+<ul>
+<li>ipconfig</li>
+<li>ipconfig /all  可以查看更详细的IP信息，这种查看方式可以看到网卡的物理地址。<br>物理地址具有全球唯一性。是在生产网卡的时候，嵌入的编号。</li>
+</ul>
+</li>
+<li><p>清屏：cls</p>
+</li>
+<li><p>DOS窗口当中也可以设置字体和屏幕以及文字的颜色。</p>
+</li>
+<li><p>退出DOS命令窗口：exit</p>
+</li>
+<li><p>怎么从DOS命令窗口当中复制文本：<br>-任意位置点击鼠标右键–&gt;标记 –&gt; 选择你要复制的文本 –&gt; 点击鼠标右键 （此时已经到剪贴板当中了）<br> 找一个位置粘贴即可。<br>-左键选择你要复制的文本 –&gt; ctrl+c进行复制 （此时已经到剪贴板当中了）–&gt; x选择一个位置ctrl+v粘贴即可。</p>
+</li>
+<li><p>查看两台计算机之间是否可以正常通信：</p>
+<ul>
+<li>ping 192.168.27.23   【发送和接收数据包4次】</li>
+<li>ping 192.168.27.23 -t 【一直不停的发送和接收数据包】</li>
+<li>ping <a target="_blank" rel="noopener" href="http://www.baidu.com/">www.baidu.com</a></li>
+</ul>
+<ul>
+<li>登录百度：<a target="_blank" rel="noopener" href="http://119.75.218.70/">http://119.75.218.70</a></li>
+</ul>
+</li>
+<li><p>强行终止DOS命令窗口中正在运行的程序：ctrl + c</p>
+</li>
+<li><p>打开DOS命令窗口默认所在的路径是：C:\Users\Administrator???</p>
+</li>
+<li><p>创建目录：mkdir abc【表示在当前所在目录下新建一个目录，起名abc】</p>
+</li>
+<li><p>关于目录切换命令：cd</p>
+<ul>
+<li><p>cd 命令的语法格式：</p>
+<p>cd 路径</p>
+</li>
+<li><p>路径分为：</p>
+<ul>
+<li><p>绝对路径：<br>C:\Users\Administrator<br>D:\用户目录\收藏夹<br>……</p>
+<p>从硬盘的根路径作为出发点。</p>
+</li>
+<li><p>相对路径：<br>从当前所在的位置作为起点的路径。</p>
+</li>
+</ul>
+</li>
+<li><p>自动补全：<br>cd e 【然后按tab键，当前所在的目录下所有以e开始的目录自动补全路径，当这个自动补全的路径不是自己想要的路径，可以继续使用tab键】</p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>回到上级目录：cd .. 【..是一个路径，代表当前路径的上级路径】<br>  cd ../../../</p>
+</li>
+<li><p>直接回到根路径：cd \</p>
+</li>
+</ul>
+<ul>
+<li><p>查看当前目录下所有的子文件和子目录：dir</p>
+</li>
+<li><p>del：<br>删除一个或者多个文件<br>删除T1.class文件<br>C:\Users\Administrator&gt;del T1.class<br>删除所有.class结尾的文件，支持模糊匹配<br>C:\Users\Administrator&gt;del *.class</p>
+<p>T1.class<br>T1.glass<br>del *ass 这个命令就会将T1.class和T1.glass都删除。<br>删除的一定是能匹配上的。</p>
+<p>del *.class 这个命令中的那个“.”不要特殊化，这个“.”其实就是一个普通的字母</p>
+</li>
+<li><p>不要把相关重要的资料放到桌面上，因为桌面是属于C盘系统盘。</p>
+</li>
+<li><p>怎么切换盘符：【不需要使用cd命令】<br>c: 回车<br>d: 回车<br>e: 回车<br>f: 回车</p>
+</li>
+<li><p>打开注册表：regedit</p>
+</li>
+</ul>
+<h3 id="3、关于windows操作系统当中常用的快捷键："><a href="#3、关于windows操作系统当中常用的快捷键：" class="headerlink" title="3、关于windows操作系统当中常用的快捷键："></a>3、关于windows操作系统当中常用的快捷键：</h3><ul>
+<li>win + r    打开运行窗口</li>
+<li>win + d    显示桌面</li>
+<li>win + e    打开资源管理器</li>
+<li>win + L    锁屏</li>
+<li>alt + tab    应用之间的切换</li>
+</ul>
+<h3 id="4、“通用的”文本编辑快捷键："><a href="#4、“通用的”文本编辑快捷键：" class="headerlink" title="4、“通用的”文本编辑快捷键："></a>4、“通用的”文本编辑快捷键：</h3><ul>
+<li>ctrl + a    全选</li>
+<li>ctrl + c    复制</li>
+<li>ctrl + v    粘贴</li>
+<li>ctrl + s    保存</li>
+<li>ctrl + x    剪切</li>
+<li>ctrl + z    撤销</li>
+<li>ctrl + y    重做</li>
+<li>tab          缩进/多行缩进</li>
+<li>shift + tab    取消缩进</li>
+<li>HOME        回到行首</li>
+<li>END        回到行尾</li>
+<li>shift + home    选中一行</li>
+<li>shift + end    选中一行</li>
+<li>ctrl + shift + 向右或者向左的箭头  选中一个单词</li>
+<li>鼠标双击：    选中一个单词</li>
+<li>鼠标三击：    选中一行</li>
+<li>ctrl + end    回到文件末尾</li>
+<li>ctrl + home    回到文件头</li>
+</ul>
+<h3 id="5、什么是JDK？"><a href="#5、什么是JDK？" class="headerlink" title="5、什么是JDK？"></a>5、什么是JDK？</h3><p>Java Development Kits<br>Java开发工具包【Java开发必备】<br>可以从Oracle的官网上下载。<a target="_blank" rel="noopener" href="http://www.oracle.com/">http://www.oracle.com</a><br>下载JDK的时候需要注意：JDK的版本，不同的操作系统需要安装不同版本的JDK。</p>
+<h3 id="6、Java分三大块：1999年"><a href="#6、Java分三大块：1999年" class="headerlink" title="6、Java分三大块：1999年"></a>6、Java分三大块：1999年</h3><ul>
+<li><p>J2SE【Java的标准版本】：</p>
+<p>基础，无论是以后走EE还是ME，SE是必须要精通的。<br>J2SE是SUN公司为java程序员准备的一套“基础类库”，这套基础类库学习之后，可以完成最基本的操作，<br>例如，文件的读写、线程的控制….</p>
+</li>
+<li><p>J2EE【Java的企业版本】：</p>
+<p>这是SUN公司为程序员专门准备的一套“类库”，这套类库可以协助程序员完成企业级软件的开发<br>企业级软件：OA办公系统、进销存系统、超市系统…….</p>
+</li>
+<li><p>J2ME【Java的微型版本】</p>
+<p>这是SUN公司为java程序员专门准备的另一套“类库”，这套类库可以协助程序员完成微型设备的嵌入式开发，<br>Java最初就是做微型设备嵌入式开发的。</p>
+</li>
+<li><p>2005年，java诞生十周年的时候，以上的三大模块改名了：</p>
+<ul>
+<li>JavaSE</li>
+<li>JavaEE</li>
+<li>JavaME</li>
+</ul>
+</li>
+</ul>
+<h3 id="7、关键术语："><a href="#7、关键术语：" class="headerlink" title="7、关键术语："></a>7、关键术语：</h3><ul>
+<li>JDK【Java开发工具箱】</li>
+<li>JRE【Java的运行时环境】</li>
+<li>JVM【Java虚拟机】</li>
+</ul>
+<p>三者之间的关系：</p>
+<ul>
+<li>JDK 中包含JRE</li>
+<li>JRE中包含JVM</li>
+</ul>
+<h3 id="8、Java语言特性："><a href="#8、Java语言特性：" class="headerlink" title="8、Java语言特性："></a>8、Java语言特性：</h3><ul>
+<li><p>跨平台/可移植 </p>
+<ul>
+<li>有一种特殊的机制：JVM</li>
+</ul>
+<ul>
+<li>Java程序并没有和底层的操作系统直接交互，java程序实际上运行在jvm当中，JVM屏蔽了操作系统之间的差异。</li>
+<li>但是有一个前提：不同的操作系统中必须安装不同版本的JVM。</li>
+<li>在可移植性方面表现非常好，一次编译，到处运行。</li>
+<li>但是为了达到可移植，必须提前在操作系统中安装JRE，JRE有了之后才会有JVM。【JVM不能单独安装】<br>这方面体验不是特别好。</li>
+<li>java语言只要编写一次，可以做到到处运行。<br>例如：java程序编写完之后，可以运行在windows操作系统上，<br>不需要做任何改动可以直接运行在Linux操作系统上，同样也<br>可以运行到MaC OS上面。<br>一次编写，到处运行。（平台改变了，程序不需要改。）</li>
+</ul>
+</li>
+<li><p>JVM这种机制实现了跨平台，那么这种机制优点和缺点分别是什么？</p>
+<ul>
+<li><p>优点：一次编写到处运行，可以跨平台。</p>
+</li>
+<li><p>缺点：麻烦。对于运行java程序来说必须先有一个JVM。<br>就像你要想在网页上看视频，你必须先安装一个flash是一样的。</p>
+</li>
+<li><p>Java语言可以编写病毒吗？</p>
+<p>可以，没问题。但是很难让用户中毒。<br>中毒的一般都是java程序员。所以很少有人编写java的病毒脚本。</p>
+</li>
+</ul>
+</li>
+<li><p>Java号称：开源、免费、跨平台、纯面向对象。</p>
+<ul>
+<li><p>开源：开发源代码，SUN公司编写的java类库的源代码普通程序员能看到。众人拾柴火焰高。<br>这样java程序会很健壮。很少的BUG【漏洞/陷阱】</p>
+</li>
+<li><p>免费</p>
+</li>
+<li><p>跨平台：依靠JVM机制【java程序不和操作系统交互，java程序运行在JVM中，JVM和操作系统交互。】<br>不同的操作系统有不同版本的JVM。</p>
+</li>
+<li><p>面向对象：人类在认识现实世界的时候多数是以面向对象的方式认知的。</p>
+</li>
+</ul>
+</li>
+<li><p>简单性：</p>
+<ul>
+<li>这里的简单说的是相对于C语言来说的。</li>
+<li>例如：C语言当中有指针，C++中多继承</li>
+<li>java取消了指针的概念，取消了多继承，只支持单继承。<br>…..</li>
+</ul>
+</li>
+<li><p>java支持多线程</p>
+</li>
+<li><p>java中还有一种特殊的机制：自动垃圾回收机制。GC机制。<br>【java运行过程当中有一个“垃圾回收器”一直在守护着。】</p>
+</li>
+</ul>
+<h3 id="9、Java的加载与执行：一个完整的java程序"><a href="#9、Java的加载与执行：一个完整的java程序" class="headerlink" title="9、Java的加载与执行：一个完整的java程序"></a>9、Java的加载与执行：一个完整的java程序</h3><p>1、Java开发的整个生命周期，包括两个重要的阶段，分别是：编译阶段和运行阶段</p>
+<p>2、编译生成的程序被称为：字节码程序。编译生成的文件是：xxx.class文件</p>
+<p>3、编译和运行可以在不同的操作系统中完成。</p>
+<p>4、程序员在xxx.java文件中编写源代码，源代码必须符合java的语法，这些源代码就是高级语言。<br>存放源代码的文件被称为源文件。</p>
+<p>5、过程：</p>
+<ul>
+<li><p>编译期：【在windows环境中完成】</p>
+<p>安装JDK，配置环境</p>
+<p>在硬盘的某个位置创建一个xxx.java源文件</p>
+<p>打开源文件，在该文件当中编写符合java语法的源程序，然后保存。</p>
+<p>使用JDK中自带的javac.exe命令对以上的java源程序进行编译。</p>
+<p>编译通过：说明语法没有问题</p>
+<p>在硬盘上生成一个或者多个字节码文件【xxx.class】</p>
+<p>编译失败：说明源程序某个位置不符合java语法格式。</p>
+<p>编译的语法格式：打开DOS命令窗口，输入：javac 源文件路径</p>
+</li>
+<li><p>注意：</p>
+<ul>
+<li>源文件路径可以是绝对路径，也可以是相对路径。</li>
+<li>编译之后，其实java源文件删除不会影响程序的执行。</li>
+<li>最好不要将java源文件删除，因为程序最终运行效果不是预期效果的时候，需要重新修改java源代码，然后进行重新编译生成全新的class字节码文件，再重新运行字节码程序。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>运行期：【可以不在windows中完成，可以换一个操作系统，但前提是该操作系统中已经安装java的运行时环境】</p>
+<ul>
+<li>打开命令窗口，在命令窗口中使用java.exe命令运行java程序，语法格式：java 类名</li>
+<li>注意：java这个命令使用的时候，java命令后面不是文件的路径。必须是一个“类名”。<ul>
+<li>例如：<ul>
+<li>java Hello</li>
+<li>java Student</li>
+<li>java User</li>
+<li>java Product                </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>以下程序的执行原理：<ul>
+<li>java.exe命令执行会启动：JVM</li>
+<li>JVM启动之后，马上启动“类加载器-Class Loader”</li>
+<li>ClassLoader负责去硬盘的“某个位置”上搜索“类名.class”字节码文件。</li>
+<li>找不到这个.class文件，一定会出现程序异常现象。</li>
+<li>找到了这个.class文件之后将.class文件转换成”二进制”，操作系统可以直接识别二进制，<br>操作系统执行二进制码和底层的硬件平台进行交互。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="10、什么是类名？"><a href="#10、什么是类名？" class="headerlink" title="10、什么是类名？"></a>10、什么是类名？</h3><ul>
+<li>假设硬盘上有一个文件，叫做Hello.class，那么类名就叫做：Hello</li>
+<li>假设硬盘上有一个文件，叫做Student.class，那么类名就叫做：Student</li>
+<li>假设硬盘上有一个文件，叫做User.class，那么类名就叫做：User</li>
+<li>假设硬盘上有一个文件，叫做Product.class，那么类名就叫做：Product</li>
+</ul>
+<h3 id="11、开始第一个java程序的开发"><a href="#11、开始第一个java程序的开发" class="headerlink" title="11、开始第一个java程序的开发"></a>11、开始第一个java程序的开发</h3><p>1、JDK下载</p>
+<p>2、JDK安装</p>
+<ul>
+<li>只安装了JDK，独立的JRE没有安装</li>
+</ul>
+<p>3、在硬盘的某个位置上新建一个java源文件：HelloWorld.java</p>
+<p>4、在HelloWorld.java文件中编写源代码</p>
+<p>5、打开命令窗口，使用javac命令进行编译：</p>
+<ul>
+<li><p>javac 源文件路径</p>
+</li>
+<li><p>出现以下错误：</p>
+<p>C:\Users\Administrator&gt;javac<br>‘javac’ 不是内部或外部命令，也不是可运行的程序<br>或批处理文件。</p>
+</li>
+<li><p>怎么解决？</p>
+<ul>
+<li>第一种方案：切换到javac.exe文件所在的目录，这个时候使用javac.exe不会出问题，但是这种方式比较麻烦。</li>
+<li>第二种方案：配置环境变量path</li>
+</ul>
+</li>
+<li><p>原理：windows操作系统在查找某个命令的时候是怎么查找的？</p>
+<ul>
+<li>首先会从当前目录下找这个命令</li>
+<li>当前目录下不存在这个命令的话，会去环境变量path指定的路径当中查找该命令。</li>
+<li>还是找不到则出现错误提示信息。</li>
+<li>path环境变量隶属于windows操作系统，和java无关，这个环境变量主要用来指定命令的搜索路径。</li>
+</ul>
+</li>
+</ul>
+<p>6、配置环境变量</p>
+<ul>
+<li><p>计算机 –&gt; 点击右键 –&gt; 属性 –&gt; 高级系统设置 –&gt; 环境变量</p>
+</li>
+<li><p>环境变量配置包括用户级别和系统级别</p>
+</li>
+<li><p>任何一个环境变量都有变量名和变量值，例如path环境变量：<br>变量名是:path值：路径【多个路径之间必须采用分号隔开，而且要求分号必须是半角分号】</p>
+<p>path=C:\Program Files (x86)\Java\jdk1.7.0_75\bin;otherpath;otherpath…..</p>
+</li>
+</ul>
+<p>编译1【绝对路径】：D:\course\JavaProjects&gt;javac D:\course\JavaProjects\02-JavaSE\day01\HelloWorld.java<br>编译2【相对路径】：D:\course\JavaProjects&gt;javac 02-JavaSE\day01\HelloWorld.java<br>编译3【相对路径】：D:\course\JavaProjects\02-JavaSE\day01&gt;javac HelloWorld.java</p>
+<p>7、运行：</p>
+<ul>
+<li><p>必须将路径切换到“D:\course\JavaProjects\02-JavaSE\day01”目录下</p>
+</li>
+<li><p>执行：java HelloWorld</p>
+</li>
+<li><p>D:\course\JavaProjects\02-JavaSE\day01&gt;java HelloWorld<br>Hello World!</p>
+</li>
+</ul>
+<h3 id="12、JDK、JRE、JVM三者之间的关系？"><a href="#12、JDK、JRE、JVM三者之间的关系？" class="headerlink" title="12、JDK、JRE、JVM三者之间的关系？"></a>12、JDK、JRE、JVM三者之间的关系？</h3><ul>
+<li>JDK:Java开发工具箱</li>
+<li>JRE:java运行环境</li>
+<li>JVM:java虚拟机</li>
+</ul>
+<p>JDK包括JRE，JRE包括JVM。</p>
+<p>JVM是不能独立安装的。</p>
+<p>JRE和JDK都是可以独立安装的。</p>
+<p>有单独的JDK安装包。</p>
+<p>也有单独的JRE安装包。</p>
+<p>没有单独的JVM安装包。</p>
+<p>安装JDK的时候：JRE就自动安装了，同时JRE内部的JVM也就自动安装了。</p>
+<p>安装JRE的时候：JVM也就自动安装了。</p>
+<h3 id="13、java程序从开发到最终运行经历了什么？"><a href="#13、java程序从开发到最终运行经历了什么？" class="headerlink" title="13、java程序从开发到最终运行经历了什么？"></a>13、java程序从开发到最终运行经历了什么？</h3><ul>
+<li><p>编译期：（可以在windows上）</p>
+<ul>
+<li>第一步：在硬盘的某个位置（随意），新建一个xxx.java文件</li>
+<li>第二步：使用记事本或者其它文本编辑器例如EditPlus打开xxx.java文件</li>
+<li>第三步：在xxx.java文件中编写“符合java语法规则的”源代码。</li>
+<li>第四步：保存（一定要将xxx.java文件保存一下）</li>
+<li>第五步：使用编译器（javac【JDK安装后自带】）对xxx.java文件进行编译。</li>
+<li>第六步：如果xxx.java文件中编写的源代码是符合语法规则的，编译会通过，如果xxx.java文件中编写的源代码违背了语法规则，那么编译器会报错，编译器报错之后class文件是不会生成的，只有编译通过了才会生成class字节码文件。并且一个java源文件是可以生成多个class文件的。（编译实质上是检查语法）</li>
+</ul>
+</li>
+<li><p>运行期（JRE在起作用）：（可以在windows上，也可以在其他的OS上。）</p>
+<ul>
+<li>第七步：如果是在Linux上运行，需要将windows上生成的class文件拷贝过去不需要拷贝源代码，真正运行的是字节码。（但是源代码也不要删除，有用）</li>
+<li>第八步：使用JDK自带的一个命令/工具：java（负责运行的命令/工具）执行字节码</li>
+<li>第九步：往下的步骤就全部交给JVM了，就不需要程序员干涉了。<br>JVM会将字节码文件装载进去，然后JVM对字节码进行解释（解释器负责将字节码解释为1010101010..等的二进制）</li>
+<li>第十步：JVM会将生成的二进制码交给OS操作系统，操作系统会执行二进制码和硬件进行交互。</li>
+</ul>
+</li>
+<li><p>注意：在以上的过程中，需要使用两个非常重要的命令？</p>
+<ul>
+<li>javac 命令，负责编译</li>
+<li>java 命令，负责运行</li>
+</ul>
+</li>
+<li><p>以上是一个复杂的过程，那么缩减一下，程序员到底要干啥？（编写、编译、运行）</p>
+<ul>
+<li>新建java文件</li>
+<li>打开java文件</li>
+<li>写java源代码</li>
+<li>保存</li>
+<li>javac命令编译</li>
+<li>java命令运行</li>
+</ul>
+</li>
+</ul>
+<h3 id="14、注释"><a href="#14、注释" class="headerlink" title="14、注释"></a>14、注释</h3><p>1、注释是对java源代码的解释说明。</p>
+<p>注释可以帮程序员更好的理解程序。</p>
+<p>2、注释信息只保存在java源文件当中，java源文件编译生成的字节码class文件，class文件中是没有这些注释信息的。</p>
+<p>3、在实际的开发中，一般项目组都要求积极的编写注释。这也是一个java软件工程师的基本素养。</p>
+<p>4、注释不是写的越多越好，精简，主线清晰，每个注释都应该是点睛之笔。</p>
+<p>5、注释方法（3种）：</p>
+<ul>
+<li><p>单行注释<br>  // 这种注释属于单行注释，只注释两个斜杠后面的</p>
+</li>
+<li><p>多行注释<br>/*<br>在这里可以编写多行注释<br>这是第一行注释<br>这是第二行注释<br>这是第三行注释<br>…….<br>*/</p>
+</li>
+<li><p>javadoc注释<br>/**</p>
+<p>   *javadoc注释</p>
+<p>  *javadoc注释</p>
+<p>  *javadoc注释</p>
+<p>  *javadoc注释</p>
+<p>  *javadoc注释<br>*/<br>注意：这种注释是比较专业的注释，该注释信息会被javadoc.exe工具解析提取并生成帮助文档。</p>
+</li>
+</ul>
+<h3 id="15、HelloWorld程序的执行原理"><a href="#15、HelloWorld程序的执行原理" class="headerlink" title="15、HelloWorld程序的执行原理"></a>15、HelloWorld程序的执行原理</h3><ol>
+<li>java.exe命令会启动JVM</li>
+<li>JVM启动之后会启动类加载器ClassLoader</li>
+<li>ClassLoader会在硬盘上的某个位置搜索HelloWorld.class字节码文件</li>
+<li>找到该文件则执行</li>
+<li>找不到该文件则报错</li>
+</ol>
+<p>ClassLoader是在哪个位置上搜索HelloWorld.class字节码文件的？</p>
+<p>默认情况下，ClassLoader从当前路径下加载xxx.class字节码文件</p>
+<p>当然，也可以让ClassLoader去某个指定的路径下加载字节码文件，这时需要配置环境变量classpath</p>
+<p>classpath环境变量属于java语言中的环境变量，不属于windows操作系统【PATH环境变量属于操作系统】</p>
+<p>classpath是给ClassLoader类加载器指路的。</p>
+<p>设置这样的环境变量：classpath=D:\course\JavaProjects\02-JavaSE\day02</p>
+<p>打开dos命令窗口在任意位置，都可以执行：java HelloWorld</p>
+<p>classpath环境变量没有配置的话，类加载器默认从当前路径下找字节码文件，<br>当classpath环境变量配置为某个指定的路径之后，类加载器只去指定的路径当中加载字节码文件。</p>
+<p>综上所述，环境变量classpath不再配置，这样类加载器会自动从当前路径下加载class字节码文件。<br>所以，每一次执行.class程序的时候，需要在DOS命令窗口中先切换到.class字节码文件所在的路径下。<br>然后运行。</p>
+<p>当然，classpath也可以这样配置：classpath=.</p>
+<p>注意：</p>
+<ul>
+<li>路径中“..”表示上级目录</li>
+<li>路径中“.”表示当前目录</li>
+</ul>
+<p>对HelloWorld程序进行解释：<br>需要记忆：</p>
+<ul>
+<li>public</li>
+<li>class</li>
+<li>static</li>
+<li>void</li>
+<li>System.out.println(“”); 向控制台输出消息</li>
+<li>类体</li>
+<li>方法体</li>
+<li>类体中不能直接编写java语句【除声明变量之外】</li>
+<li>一个java语句必须以“;”结束</li>
+<li>方法体中可以编写多条java语句</li>
+<li>主方法是程序的入口，固定写法，SUN规定的。</li>
+</ul>
+<h3 id="16、关于java代码的编写"><a href="#16、关于java代码的编写" class="headerlink" title="16、关于java代码的编写"></a>16、关于java代码的编写</h3><p>在java中任何有效的代码必须写到“类体”当中，最外层必须是一个类的定义。</p>
+<p>public表示公开的，class表示定义一个类，Test是一个类名。类名后面必须是一对大括号，这一对大括号被称为“类体”</p>
+<p>括号和引号必须是成对的。并且建议都要成对编写，这样才不会丢掉。</p>
+<p>代码缩进:</p>
+<ul>
+<li>我包着你，你就比我低一级。你就需要缩进。</li>
+<li>没有合理的缩进，代码可读性很差。</li>
+<li>或者也可以这样说，大括号里的都需要缩进。</li>
+<li>缩进就是可读性问题，不缩进也不影响程序的编译和执行。</li>
+</ul>
+<p>类体/public static void main(String[] args){}:</p>
+<ul>
+<li>程序的入口，SUN公司java语言规定的</li>
+<li>也就是说：JVM在执行程序的时候，会主动去找这样一个方法。没有这个规格的方法，程序是无法执行的。</li>
+<li>main方法也可以叫做主方法。</li>
+<li>注意：<ul>
+<li>方法必须放到“类体”中，不能放到“类体”外面。</li>
+<li>类体当中应该是方法，而不是直接的java语句。</li>
+<li>任何一个程序都要有一个入口，没有入口进不来，无法执行。</li>
+<li>程序的入口只有一个，若有一个一模一样的入口，编译器会报错。</li>
+<li>一个程序如果没有入口但是没有语法错误的话，编译器不会报错，但运行会报错。</li>
+</ul>
+</li>
+</ul>
+<p>方法体/System.out.println():<br>    - 注意：<br>     - 方法体由一行一行的“java语句”构成<br>    - 并且非常重要的是：任何一条java语句必须以“;”结尾，并且这个分号还得是英文的，不能用中文分号。<br>    - “;” 代表一条语句的结束。<br>    - 非常非常重要的是：方法体中的代码遵循自上而下的顺序依次逐行执行。<br>    - System.out.println();这行代码的作用是向控制台输出一句话。就是这个作用。<br>    - 注意：如果println后面小括号里的内容是一个“字符串”的话，必须使用英文双引号括起来。<br>    - 双引号也要成对儿写。</p>
+<p>注意的小点：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这个不加双引号行吗？</span></span><br><span class="line"><span class="comment">// 可以，因为它是数字。</span></span><br><span class="line">System.out.println(<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 是数字，加双引号行吗？</span></span><br><span class="line">System.out.println(<span class="string">&quot;100&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 以上性质一样吗？</span></span><br><span class="line"><span class="comment">// 不一样：一个是字符串，一个是数字。</span></span><br><span class="line"><span class="comment">// 但最终输出到控制台上一个样子，没啥区别。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里扩展一下：对于数字来说能进行加减乘除吗？</span></span><br><span class="line"><span class="comment">// + 能用吗？</span></span><br><span class="line"><span class="comment">// - 能用吗？</span></span><br><span class="line"><span class="comment">// / 能用吗？</span></span><br><span class="line"><span class="comment">// * 能用吗？</span></span><br><span class="line"><span class="comment">// 可以</span></span><br><span class="line">System.out.println(<span class="number">100</span> + <span class="number">200</span>); <span class="comment">// 300</span></span><br><span class="line">System.out.println(<span class="number">200</span> - <span class="number">100</span>); <span class="comment">// 100</span></span><br><span class="line">System.out.println(<span class="number">200</span> * <span class="number">100</span>); <span class="comment">// 20000</span></span><br><span class="line">System.out.println(<span class="number">200</span> / <span class="number">100</span>); <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="17、public-class-和-class的区别："><a href="#17、public-class-和-class的区别：" class="headerlink" title="17、public class 和 class的区别："></a>17、public class 和 class的区别：</h3><ul>
+<li><p>一个java源文件当中可以定义多个class</p>
+</li>
+<li><p>一个java源文件当中public的class不是必须的</p>
+</li>
+<li><p>一个class会定义生成一个xxx.class字节码文件</p>
+</li>
+<li><p>一个java源文件当中定义公开的类的话，只能有一个，并且该类名称必须和java源文件名称一致。</p>
+</li>
+<li><p>每一个class当中都可以编写main方法，都可以设定程序的入口，想执行B.class中的main方法：java B，<br>想执行X.class当中的main方法：java X</p>
+</li>
+<li><p>注意：</p>
+</li>
+<li><p>当在命令窗口中执行java Hello，那么要求Hello.class当中必须有主方法。没有主方法会出现运行<br>阶段的错误：</p>
+<p>D:\course\JavaProjects\02-JavaSE\day02&gt;java Hello<br>错误: 在类 B 中找不到主方法, 请将主方法定义为:<br>public static void main(String[] args)</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>XGH_little-star
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://xgh-user.github.io/2020/11/09/01%E5%85%B3%E4%BA%8Ejava/" title="01关于java">http://xgh-user.github.io/2020/11/09/01关于java/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/javase/" rel="tag"># javase</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/" rel="prev" title="如何在CentOS的Linux下载jdk、mysql、tomcat、redis、ngiux、rabbitmq">
+      <i class="fa fa-chevron-left"></i> 如何在CentOS的Linux下载jdk、mysql、tomcat、redis、ngiux、rabbitmq
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/10/02java%E8%AF%AD%E6%B3%95%E8%A7%84%E5%88%99%E5%92%8C%E8%A7%84%E8%8C%83/" rel="next" title="02java语法规则和规范">
+      02java语法规则和规范 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9C%80%E8%A6%81%E6%8E%8C%E6%8F%A1%E7%9A%84%E5%86%85%E5%AE%B9%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">需要掌握的内容：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%93%E6%9E%84%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">1、计算机结构：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81windows%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BD%93%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84DOS%E5%91%BD%E4%BB%A4%EF%BC%9A"><span class="nav-number">3.</span> <span class="nav-text">2、windows操作系统当中常用的DOS命令：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E5%85%B3%E4%BA%8Ewindows%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BD%93%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84%E5%BF%AB%E6%8D%B7%E9%94%AE%EF%BC%9A"><span class="nav-number">4.</span> <span class="nav-text">3、关于windows操作系统当中常用的快捷键：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E3%80%81%E2%80%9C%E9%80%9A%E7%94%A8%E7%9A%84%E2%80%9D%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%BF%AB%E6%8D%B7%E9%94%AE%EF%BC%9A"><span class="nav-number">5.</span> <span class="nav-text">4、“通用的”文本编辑快捷键：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AFJDK%EF%BC%9F"><span class="nav-number">6.</span> <span class="nav-text">5、什么是JDK？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6%E3%80%81Java%E5%88%86%E4%B8%89%E5%A4%A7%E5%9D%97%EF%BC%9A1999%E5%B9%B4"><span class="nav-number">7.</span> <span class="nav-text">6、Java分三大块：1999年</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7%E3%80%81%E5%85%B3%E9%94%AE%E6%9C%AF%E8%AF%AD%EF%BC%9A"><span class="nav-number">8.</span> <span class="nav-text">7、关键术语：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8%E3%80%81Java%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%EF%BC%9A"><span class="nav-number">9.</span> <span class="nav-text">8、Java语言特性：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9%E3%80%81Java%E7%9A%84%E5%8A%A0%E8%BD%BD%E4%B8%8E%E6%89%A7%E8%A1%8C%EF%BC%9A%E4%B8%80%E4%B8%AA%E5%AE%8C%E6%95%B4%E7%9A%84java%E7%A8%8B%E5%BA%8F"><span class="nav-number">10.</span> <span class="nav-text">9、Java的加载与执行：一个完整的java程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E7%B1%BB%E5%90%8D%EF%BC%9F"><span class="nav-number">11.</span> <span class="nav-text">10、什么是类名？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11%E3%80%81%E5%BC%80%E5%A7%8B%E7%AC%AC%E4%B8%80%E4%B8%AAjava%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%BC%80%E5%8F%91"><span class="nav-number">12.</span> <span class="nav-text">11、开始第一个java程序的开发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12%E3%80%81JDK%E3%80%81JRE%E3%80%81JVM%E4%B8%89%E8%80%85%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB%EF%BC%9F"><span class="nav-number">13.</span> <span class="nav-text">12、JDK、JRE、JVM三者之间的关系？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13%E3%80%81java%E7%A8%8B%E5%BA%8F%E4%BB%8E%E5%BC%80%E5%8F%91%E5%88%B0%E6%9C%80%E7%BB%88%E8%BF%90%E8%A1%8C%E7%BB%8F%E5%8E%86%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">14.</span> <span class="nav-text">13、java程序从开发到最终运行经历了什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14%E3%80%81%E6%B3%A8%E9%87%8A"><span class="nav-number">15.</span> <span class="nav-text">14、注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15%E3%80%81HelloWorld%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%89%A7%E8%A1%8C%E5%8E%9F%E7%90%86"><span class="nav-number">16.</span> <span class="nav-text">15、HelloWorld程序的执行原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16%E3%80%81%E5%85%B3%E4%BA%8Ejava%E4%BB%A3%E7%A0%81%E7%9A%84%E7%BC%96%E5%86%99"><span class="nav-number">17.</span> <span class="nav-text">16、关于java代码的编写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#17%E3%80%81public-class-%E5%92%8C-class%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9A"><span class="nav-number">18.</span> <span class="nav-text">17、public class 和 class的区别：</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">_little-star_</p>
+  <div class="site-description" itemprop="description">记录个人在平时学习的过程中的一些笔记、感受与遇到的坑,例如：java、计算机考研四件套等等。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">_little-star_</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"xgh-user.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Linux上的软件安装的方式大体上说有四种：  二进制发布包 软件已经针对具体平台编译打包发布，只要解压，修改配置即可。  RPM包 软件已经按照redhat的包管理工具规范RPM进行打包发布，需要获取到相应的软件RPM发布包，然后用RPM命令进行安装。  Yum在线安装 软件已经以RPM规范打包，但发布在了网络上的一些服务器上，可用yum在线安装服务器上的rpm软件，并且会自动解决软件安装过程中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何在CentOS的Linux下载jdk、mysql、tomcat、redis、ngiux、rabbitmq">
+<meta property="og:url" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/index.html">
+<meta property="og:site_name" content="_little-star_">
+<meta property="og:description" content="Linux上的软件安装的方式大体上说有四种：  二进制发布包 软件已经针对具体平台编译打包发布，只要解压，修改配置即可。  RPM包 软件已经按照redhat的包管理工具规范RPM进行打包发布，需要获取到相应的软件RPM发布包，然后用RPM命令进行安装。  Yum在线安装 软件已经以RPM规范打包，但发布在了网络上的一些服务器上，可用yum在线安装服务器上的rpm软件，并且会自动解决软件安装过程中">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/1.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/2.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/3.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/4.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/5.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/6.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/7.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/8.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/9.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/10.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/11.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/12.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/13.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/14.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/15.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/16.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/17.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/18.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/19.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/20.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/21.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/22.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/23.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/24.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/25.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/26.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/27.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/28.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/29.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/30.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/31.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/32.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/33.png">
+<meta property="og:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/34.png">
+<meta property="article:published_time" content="2020-11-08T12:45:56.000Z">
+<meta property="article:modified_time" content="2020-11-09T17:51:57.957Z">
+<meta property="article:author" content="_little-star_">
+<meta property="article:tag" content="Linux软件下载安装">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/1.png">
+
+<link rel="canonical" href="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>如何在CentOS的Linux下载jdk、mysql、tomcat、redis、ngiux、rabbitmq | _little-star_</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="_little-star_" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">_little-star_</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">学习的博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="_little-star_">
+      <meta itemprop="description" content="记录个人在平时学习的过程中的一些笔记、感受与遇到的坑,例如：java、计算机考研四件套等等。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="_little-star_">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何在CentOS的Linux下载jdk、mysql、tomcat、redis、ngiux、rabbitmq
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-08 20:45:56" itemprop="dateCreated datePublished" datetime="2020-11-08T20:45:56+08:00">2020-11-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-10 01:51:57" itemprop="dateModified" datetime="2020-11-10T01:51:57+08:00">2020-11-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/other/" itemprop="url" rel="index"><span itemprop="name">other</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/other/Linux%E8%BD%AF%E4%BB%B6%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85/" itemprop="url" rel="index"><span itemprop="name">Linux软件下载安装</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Linux上的软件安装的方式大体上说有四种：</p>
+<ul>
+<li><p>二进制发布包</p>
+<p>软件已经针对具体平台编译打包发布，只要解压，修改配置即可。</p>
+</li>
+<li><p>RPM包</p>
+<p>软件已经按照redhat的包管理工具规范RPM进行打包发布，需要获取到相应的软件RPM发布包，然后用RPM命令进行安装。</p>
+</li>
+<li><p>Yum在线安装</p>
+<p>软件已经以RPM规范打包，但发布在了网络上的一些服务器上，可用yum在线安装服务器上的rpm软件，并且会自动解决软件安装过程中的库依赖问题。</p>
+</li>
+<li><p>源码编译安装</p>
+<p>软件以源码工程的形式发布，需要获取到源码工程后用相应开发工具进行编译打包部署。</p>
+</li>
+</ul>
+<p>上传与下载工具介绍（三种）：</p>
+<ul>
+<li>xftp</li>
+</ul>
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/1.png" alt="xftp"></p>
+<p>可以去<a target="_blank" rel="noopener" href="https://www.netsarang.com/en/xftp/">官网</a>下载（顺手可以把Xshell也下载了）</p>
+<ul>
+<li><p>lrzsz</p>
+<p>我们可以使用yum安装方式安装 yum install lrzsz</p>
+<p>注意：必须有网络</p>
+<p>可以在crt中设置上传与下载目录</p>
+<p> <img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/2.png" alt="lrzsz"></p>
+<p>上传：</p>
+<p> <img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/3.png" alt="上传"></p>
+<p>下载</p>
+<p> <img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/4.png" alt="下载"></p>
+</li>
+<li><p>sftp</p>
+<p>使用<code>alt + p</code>组合键打开sftp窗口</p>
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/5.png" alt="sftp"></p>
+<p>使用put 命令上传</p>
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/6.png" alt="put"></p>
+<p>使用get命令下载</p>
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/7.png" alt="get"></p>
+<p>默认下载位置在当前计算的的文档位置</p>
+<p> <img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/8.png" alt="文档位置"></p>
+</li>
+</ul>
+<h2 id="教程分六个部分"><a href="#教程分六个部分" class="headerlink" title="教程分六个部分"></a>教程分六个部分</h2><ol>
+<li><p>第一部分：下载安装jdk</p>
+</li>
+<li><p>第二部分：下载安装mysql</p>
+</li>
+<li><p>第三部分：下载安装tomcat</p>
+</li>
+<li><p>第四部分：下载安装redis</p>
+</li>
+<li><p>第五部分：下载安装nginx</p>
+</li>
+<li><p>第六部分：下载安装rabbitmq（附：配置防火墙）</p>
+</li>
+</ol>
+<h3 id="第一部分：下载安装jdk"><a href="#第一部分：下载安装jdk" class="headerlink" title="第一部分：下载安装jdk"></a>第一部分：下载安装jdk</h3><h4 id="1、在官网下载自己所需版本的jdk（linux版）"><a href="#1、在官网下载自己所需版本的jdk（linux版）" class="headerlink" title="1、在官网下载自己所需版本的jdk（linux版）"></a>1、在官网下载自己所需版本的jdk（linux版）</h4><h4 id="2、卸载linux可能自带的open-JDK"><a href="#2、卸载linux可能自带的open-JDK" class="headerlink" title="2、卸载linux可能自带的open-JDK"></a>2、卸载linux可能自带的open-JDK</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看jdk版本</span></span><br><span class="line">java –version</span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看安装的jdk信息</span></span><br><span class="line">rpm -qa | grep java</span><br><span class="line"><span class="meta">#</span><span class="bash"> 卸载jdk</span></span><br><span class="line">rpm -e --nodeps java-1.6.0-openjdk-1.6.0.35-1.13.7.1.el6_6.i686</span><br><span class="line">rpm -e --nodeps java-1.7.0-openjdk-1.7.0.79-2.5.5.4.el6.i686</span><br><span class="line"><span class="meta">#</span><span class="bash"> 再次查看安装的jdk信息</span></span><br><span class="line">rpm -qa | grep java</span><br></pre></td></tr></table></figure>
+
+<p>第一次查看安装的jdk信息或最后一次查看安装的jdk信息没有open-jdk后，可以上传下载的jdk</p>
+<h4 id="3、上传安装jdk"><a href="#3、上传安装jdk" class="headerlink" title="3、上传安装jdk"></a>3、上传安装jdk</h4><p>我们通常将软件安装到/usr/local，在该目录下新建一个jdk文件夹。用Xftp将下载的jdk上传到jdk文件夹中</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">直接解压就可以</span></span><br><span class="line">tar –zxvf  jdk.*****.tar.gz</span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看jdk版本</span></span><br><span class="line">java –version</span><br></pre></td></tr></table></figure>
+
+<h4 id="4、配置JDK的环境变量"><a href="#4、配置JDK的环境变量" class="headerlink" title="4、配置JDK的环境变量:"></a>4、配置JDK的环境变量:</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/profile</span><br><span class="line"><span class="meta">#</span><span class="bash">按i进行编写，在末尾行添加</span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="built_in">set</span> java environment</span></span><br><span class="line">JAVA_HOME=/usr/local/jdk/jdk1.7.0_71</span><br><span class="line">CLASSPATH=.:$JAVA_HOME/lib.tools.jar</span><br><span class="line">PATH=$JAVA_HOME/bin:$PATH</span><br><span class="line">export JAVA_HOME CLASSPATH PATH</span><br><span class="line"><span class="meta">#</span><span class="bash">按Esc加:wq回车，保存退出</span></span><br><span class="line"><span class="meta">#</span><span class="bash">使更改的配置立即生效</span></span><br><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure>
+
+<h3 id="第二部分：下载安装mysql"><a href="#第二部分：下载安装mysql" class="headerlink" title="第二部分：下载安装mysql"></a>第二部分：下载安装mysql</h3><p>本部分参考开心跳蚤的<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/276d59cbc529">Linux下安装mysql-5.7.24</a>这篇博客，加上遇到的坑和自己的一些补充。</p>
+<p>正。</p>
+<h4 id="1、注意："><a href="#1、注意：" class="headerlink" title="1、注意："></a>1、注意：</h4><ul>
+<li><p>注意1：本文档讲解安装版本为mysql-5.7.24，对于5.7.24之后的版本，不适用此说明文档，主要原因在于之后版本的mysql配置文件的目录位置和结构有所改变，使用此说明可能会出现找不到配置文件或者配置后不生效的情况。</p>
+</li>
+<li><p>注意2：安装过程中务必保证文件路径的前后统一，否则可能会导致不可预期的结果，推荐直接使用文中的命令进行操作。</p>
+</li>
+</ul>
+<h4 id="2、安装前准备"><a href="#2、安装前准备" class="headerlink" title="2、安装前准备"></a>2、安装前准备</h4><p>1、检查是否已经安装过mysql，执行命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]# rpm -qa | grep mysql</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/9.png" alt="检查"></p>
+<p>从执行结果，可以看出我们已经安装了<strong>mysql-libs-5.1.73-5.el6_6.x86_64</strong>，执行删除命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]# rpm -e --nodeps mysql-libs-5.1.73-5.el6_6.x86_64</span><br></pre></td></tr></table></figure>
+
+<p>再次执行查询命令，查看是否删除</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]# rpm -qa | grep mysql</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/10.png" alt="检查"></p>
+<p>2、查询所有Mysql对应的文件夹</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]# whereis mysql</span><br><span class="line">mysql: /usr/bin/mysql /usr/include/mysql</span><br><span class="line">[root@localhost lib]# find / -name mysql</span><br><span class="line">/data/mysql</span><br><span class="line">/data/mysql/mysql</span><br></pre></td></tr></table></figure>
+
+<p>删除相关目录或文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]#  rm -rf /usr/bin/mysql /usr/include/mysql /data/mysql /data/mysql/mysql </span><br></pre></td></tr></table></figure>
+
+<p>验证是否删除完毕</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]# whereis mysql</span><br><span class="line">mysql:</span><br><span class="line">[root@localhost /]# find / -name mysql</span><br><span class="line">[root@localhost /]# </span><br></pre></td></tr></table></figure>
+
+<p>3、检查mysql用户组和用户是否存在，如果没有，则创建</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]# cat /etc/group | grep mysql</span><br><span class="line">[root@localhost /]# cat /etc/passwd |grep mysql</span><br><span class="line">[root@localhost /]# groupadd mysql</span><br><span class="line">[root@localhost /]# useradd -r -g mysql mysql</span><br><span class="line">[root@localhost /]#</span><br></pre></td></tr></table></figure>
+
+<p>4、从官网下载是用于Linux的Mysql安装包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]#  wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.24-linux-glibc2.12-x86_64.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>也可以直接到 <a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://downloads.mysql.com/archives/community/">mysql官网</a> 选择对应版本进行下载。</p>
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/11.png" alt="mysql官网"></p>
+<h4 id="3、安装Mysql"><a href="#3、安装Mysql" class="headerlink" title="3、安装Mysql"></a>3、安装Mysql</h4><p>1、在执行<strong>wget</strong>命令的目录下或你的上传目录下找到Mysql安装包：<strong>mysql-5.7.24-linux-glibc2.12-x86_64.tar.gz</strong><br> 执行解压命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]# tar -xzvf mysql-5.7.24-linux-glibc2.12-x86_64.tar.gz</span><br><span class="line">[root@localhost /]# ls</span><br><span class="line">mysql-5.7.24-linux-glibc2.12-x86_64</span><br><span class="line">mysql-5.7.24-linux-glibc2.12-x86_64.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>解压完成后，可以看到当前目录下多了一个解压文件，移动该文件到**/usr/local/<strong>下，并将文件夹名称修改为</strong>mysql**。</p>
+<p>如果**/usr/local/<strong>下已经存在</strong>mysql**，请将已存在mysql文件修改为其他名称或删除，否则后续步骤可能无法正确进行。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]# mv mysql-5.7.24-linux-glibc2.12-x86_64 /usr/local/</span><br><span class="line">[root@localhost /]# cd /usr/local/</span><br><span class="line">[root@localhost /]# mv mysql-5.7.24-linux-glibc2.12-x86_64 mysql</span><br></pre></td></tr></table></figure>
+
+<p>如果**/usr/local/<strong>下不存在</strong>mysql**文件夹，直接执行如下命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]# mv mysql-5.7.24-linux-glibc2.12-x86_64 /usr/local/mysql</span><br></pre></td></tr></table></figure>
+
+<p>2、在**/usr/local/mysql**目录下创建data目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]# mkdir /usr/local/mysql/data</span><br></pre></td></tr></table></figure>
+
+<p>3、更改mysql目录下所有的目录及文件夹所属的用户组和用户，以及权限</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]# chown -R mysql:mysql /usr/local/mysql</span><br><span class="line">[root@localhost /]# chmod -R 755 /usr/local/mysql</span><br></pre></td></tr></table></figure>
+
+<p>4、编译安装并初始化mysql,<strong>务必记住初始化输出日志末尾的密码（数据库管理员临时密码）</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]# cd /usr/local/mysql/bin</span><br><span class="line">[root@localhost bin]# ./mysqld --initialize --user=mysql --datadir=/usr/local/mysql/data --basedir=/usr/local/mysql</span><br></pre></td></tr></table></figure>
+
+<p>第四步可能出现问题：</p>
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/12.png" alt="问题"></p>
+<p>出现该问题首先检查该链接库文件有没有安装使用 命令进行核查</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost bin]# rpm -qa|grep libaio   </span><br><span class="line">[root@localhost bin]# </span><br></pre></td></tr></table></figure>
+
+<p>运行命令后发现系统中无该链接库文件，用yum下载libaio-devel.x86_64</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost bin]#  yum install  libaio-devel.x86_64</span><br></pre></td></tr></table></figure>
+
+<p>安装成功后，继续运行数据库的初始化命令，此时可能会出现如下错误：</p>
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/13.png" alt="问题"></p>
+<p>用yum下载numactl执行如下命令后</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost bin]#  yum -y install numactl</span><br></pre></td></tr></table></figure>
+
+<p>执行无误之后，再重新执行第4步初始化命令，无误之后再进行第5步操作！</p>
+<p>5、运行初始化命令成功后，输出日志如下：</p>
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/14.png" alt="输出日志"></p>
+<p>记录日志最末尾位置**root@localhost:**后的字符串，此字符串为mysql管理员临时登录密码。</p>
+<p>6、编辑配置文件my.cnf，添加配置如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost bin]#  vi /etc/my.cnf</span><br><span class="line"><span class="meta">#</span><span class="bash"> 用i进入编辑模式，按Esc加:wq回车，保存退出</span></span><br><span class="line">[mysqld]</span><br><span class="line">datadir=/usr/local/mysql/data</span><br><span class="line">port=3306</span><br><span class="line">sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES</span><br><span class="line">symbolic-links=0</span><br><span class="line">max_connections=600</span><br><span class="line">innodb_file_per_table=1</span><br><span class="line">lower_case_table_names=1</span><br><span class="line">character_set_server=utf8</span><br></pre></td></tr></table></figure>
+
+<p><code>lower_case_table_names</code>：是否区分大小写，1表示存储时表名为小写，操作时不区分大小写；0表示区分大小写；不能动态设置，修改后，必须重启才能生效：<br> <code>character_set_server</code>：设置数据库默认字符集，如果不设置默认为latin1<br> <code>innodb_file_per_table</code>：是否将每个表的数据单独存储，1表示单独存储；0表示关闭独立表空间，可以通过查看数据目录，查看文件结构的区别；</p>
+<p>7、测试启动mysql服务器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]# /usr/local/mysql/support-files/mysql.server start</span><br></pre></td></tr></table></figure>
+
+<p>显示如下结果，说明数据库安装并可以正常启动</p>
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/15.png" alt="正常启动"></p>
+<h4 id="异常情况"><a href="#异常情况" class="headerlink" title="异常情况"></a>异常情况</h4><p>如果出现如下提示信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Starting MySQL.180306 16:26:49 mysqld_safe error: log-error set to &#x27;/var/lib/mysql/mysql.log&#x27;, however file don&#x27;t exists. Create writable for user &#x27;mysql&#x27;. </span><br><span class="line">ERROR! The server quit without updating PID file</span><br></pre></td></tr></table></figure>
+
+<p>1、查看是否存在mysql和mysqld的服务，如果存在，则结束进程，再重新执行启动命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查询服务</span></span><br><span class="line">ps -ef|grep mysql | grep -v grep</span><br><span class="line">ps -ef|grep mysqld | grep -v grep</span><br><span class="line"></span><br><span class="line"><span class="comment">#结束进程</span></span><br><span class="line"><span class="built_in">kill</span> -9 PID</span><br><span class="line"></span><br><span class="line"><span class="comment">#启动服务</span></span><br><span class="line">/usr/<span class="built_in">local</span>/mysql/support-files/mysql.server start</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/16.png" alt="端口"></p>
+<p>2、如果不存在，则是因为没有路径也没有权限，所以创建此路径并授权给mysql用户，执行如下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 创建此路径</span></span><br><span class="line">mkdir /var/log/mariadb</span><br><span class="line">touch /var/log/mariadb/mariadb.log</span><br><span class="line"><span class="meta">#</span><span class="bash"> 用户组及用户</span></span><br><span class="line">chown -R mysql:mysql /var/log/mariadb/</span><br><span class="line"><span class="meta">#</span><span class="bash">启动服务</span></span><br><span class="line">/usr/local/mysql/support-files/mysql.server start</span><br></pre></td></tr></table></figure>
+
+<p>3、此时可能会出现如下错误：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Starting MySQL.170331 10:18:30 mysqld_safe Directory &#x27;/var/lib/mysql&#x27; for UNIX socket file don&#x27;t exists.</span><br><span class="line">ERROR! The server quit without updating PID file </span><br></pre></td></tr></table></figure>
+
+<p>启动MySQL服务时，会优先在/etc/目录下查找my.cnf,可以把/etc/my.cnf重命名，执行如下命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@VMUest ~]<span class="comment"># ll /etc/my.cnf</span></span><br><span class="line">-rw-r--r--. 1 root root 251 Jan 27 05:41 /etc/my.cnf</span><br><span class="line">[root@VMUest ~]<span class="comment"># cat /etc/my.cnf</span></span><br><span class="line">[mysqld]</span><br><span class="line">datadir=/var/lib/mysql</span><br><span class="line">socket=/var/lib/mysql/mysql.sock</span><br><span class="line">user=mysql</span><br><span class="line"><span class="comment"># Disabling symbolic-links is recommended to prevent assorted security risks</span></span><br><span class="line">symbolic-links=0</span><br><span class="line"></span><br><span class="line">[mysqld_safe]</span><br><span class="line">log-error=/var/<span class="built_in">log</span>/mysqld.log</span><br><span class="line">pid-file=/var/run/mysqld/mysqld.pid</span><br><span class="line">[root@VMUest ~]<span class="comment"># ll /etc/ |grep my</span></span><br><span class="line">-rw-r--r--.  1 root root    251 Jan 27 05:41 my.cnf</span><br><span class="line">[root@VMUest ~]<span class="comment"># mv /etc/my.cnf /etc/my.cnf.bak</span></span><br><span class="line"><span class="comment">#启动服务</span></span><br><span class="line">/usr/<span class="built_in">local</span>/mysql/support-files/mysql.server start</span><br></pre></td></tr></table></figure>
+
+<p>MySQL服务顺利启动。</p>
+<p>8、添加软连接，并重启mysql服务</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]#  ln -s /usr/local/mysql/support-files/mysql.server /etc/init.d/mysql </span><br><span class="line">[root@localhost /]#  ln -s /usr/local/mysql/bin/mysql /usr/bin/mysql</span><br><span class="line">[root@localhost /]#  service mysql restart</span><br></pre></td></tr></table></figure>
+
+<p>9、登录mysql，修改密码(密码为步骤5生成的临时密码)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /]#  mysql -u root -p</span><br><span class="line">Enter password:</span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"><span class="built_in">set</span> password <span class="keyword">for</span> root@localhost = password(<span class="string">&#x27;yourpass&#x27;</span>);</span></span><br></pre></td></tr></table></figure>
+
+<p>注意：输入密码时，Enter password 后面不会有任何显示，此时实际是输入成功的，输入完密码后直接回车即可。或使用：mysql -u root -p 密码 ，回车后，即可直接进入数据库</p>
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/17.png" alt="修改密码"></p>
+<p>10、开放远程连接</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span><span class="bash">use mysql;</span></span><br><span class="line"><span class="meta">msyql&gt;</span><span class="bash">update user <span class="built_in">set</span> user.Host=<span class="string">&#x27;%&#x27;</span> <span class="built_in">where</span> user.User=<span class="string">&#x27;root&#x27;</span>;</span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash">flush privileges;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/18.png" alt="开放远程连接"></p>
+<p>11、设置开机自动启动    </p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、将服务文件拷贝到<span class="keyword">init</span>.d下，并重命名为mysql</span><br><span class="line">[<span class="meta">root@localhost /</span>]<span class="meta"># cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld</span></span><br><span class="line"><span class="number">2</span>、赋予可执行权限</span><br><span class="line">[<span class="meta">root@localhost /</span>]<span class="meta"># chmod +x /etc/init.d/mysqld</span></span><br><span class="line"><span class="number">3</span>、添加服务</span><br><span class="line">[<span class="meta">root@localhost /</span>]<span class="meta"># chkconfig --add mysqld</span></span><br><span class="line"><span class="number">4</span>、显示服务列表</span><br><span class="line">[<span class="meta">root@localhost /</span>]<span class="meta"># chkconfig --list</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="第三部分：下载安装tomcat"><a href="#第三部分：下载安装tomcat" class="headerlink" title="第三部分：下载安装tomcat"></a>第三部分：下载安装tomcat</h3><h4 id="1、在官网下载tomcat"><a href="#1、在官网下载tomcat" class="headerlink" title="1、在官网下载tomcat"></a>1、在<a target="_blank" rel="noopener" href="https://tomcat.apache.org/download-90.cgi">官网</a>下载tomcat</h4><h4 id="2、上传安装tomcat"><a href="#2、上传安装tomcat" class="headerlink" title="2、上传安装tomcat"></a>2、上传安装tomcat</h4><p>将软件安装到/usr/local，在该目录下新建一个tomcat文件夹。用Xftp将下载的tomcat上传到tomcat文件夹中</p>
+<p>将上传的tomcat解压</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar –zxvf *****</span><br></pre></td></tr></table></figure>
+
+<p>在tomcat/bin目录下执行 startup.sh（注意防火墙）</p>
+<p>在浏览器访问主机对应ip加上8080端口可以访问到tomcat页面（那只猫）</p>
+<p>也可以查看Tomcat进程:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux | grep tomcat</span><br></pre></td></tr></table></figure>
+
+<h3 id="第四部分：下载安装redis"><a href="#第四部分：下载安装redis" class="headerlink" title="第四部分：下载安装redis"></a>第四部分：下载安装redis</h3><h4 id="1、安装gcc-c"><a href="#1、安装gcc-c" class="headerlink" title="1、安装gcc-c++"></a>1、安装gcc-c++</h4><p>redis是C语言开发，安装redis需要先将官网下载的源码进行编译，编译依赖gcc环境。</p>
+<p>输入命令:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc-c++</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/19.png" alt="安装gcc-c++"></p>
+<p>输入y确认下载</p>
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/20.png" alt="确认下载"></p>
+<p>输入y确认安装</p>
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/21.png" alt="确认安装"></p>
+<p>安装 gcc 成功！</p>
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/22.png" alt="安装 gcc 成功"></p>
+<h4 id="2、在官网下载所需的redis"><a href="#2、在官网下载所需的redis" class="headerlink" title="2、在官网下载所需的redis"></a>2、在<a target="_blank" rel="noopener" href="https://redis.io/download">官网</a>下载所需的redis</h4><h4 id="3、上传编译安装tomcat"><a href="#3、上传编译安装tomcat" class="headerlink" title="3、上传编译安装tomcat"></a>3、上传编译安装tomcat</h4><p>解压上传的tomcat</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xzvf redis-****.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>编译安装</p>
+<p>切换至程序目录，并执行make命令编译：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ll</span><br><span class="line">cd redis-***</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+
+<p>执行安装命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make PREFIX=/usr/local/redis install </span><br></pre></td></tr></table></figure>
+
+<p>make install安装完成后，会在/usr/local/bin目录下生成下面几个可执行文件，它们的作用分别是：</p>
+<p>redis-server：Redis服务器端启动程序</p>
+<p>redis-cli：Redis客户端操作工具。也可以用telnet根据其纯文本协议来操作</p>
+<p>redis-benchmark：Redis性能测试工具</p>
+<p>redis-check-aof：数据修复工具</p>
+<p>redis-check-dump：检查导出工具</p>
+<h4 id="4、配置redis"><a href="#4、配置redis" class="headerlink" title="4、配置redis"></a>4、配置redis</h4><p>复制配置文件到/usr/local/redis/bin目录：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd redis-***</span><br><span class="line">cp redis.conf /usr/local/redis/bin</span><br></pre></td></tr></table></figure>
+
+<h4 id="5、启动redis"><a href="#5、启动redis" class="headerlink" title="5、启动redis"></a>5、启动redis</h4><p>进入redis/bin目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd redis/bin</span><br></pre></td></tr></table></figure>
+
+<p>启动redis服务端（注意命令前面有<code>.</code>）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./redis-server redis.conf</span><br></pre></td></tr></table></figure>
+
+<p>克隆新窗口，启动redis客户端（注意命令前面有<code>.</code>）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./redis-cli</span><br></pre></td></tr></table></figure>
+
+<h3 id="第五部分：下载安装nginx"><a href="#第五部分：下载安装nginx" class="headerlink" title="第五部分：下载安装nginx"></a>第五部分：下载安装nginx</h3><h4 id="1、安装前的准备"><a href="#1、安装前的准备" class="headerlink" title="1、安装前的准备"></a>1、安装前的准备</h4><p>需要安装 gcc 的环境【前面安装redis时安装过，此步省略】</p>
+<p>第三方的开发包：</p>
+<ul>
+<li><p><strong>PCRE</strong></p>
+<p>PCRE(Perl Compatible Regular Expressions)是一个 Perl 库，包括 perl 兼容的正则表达式库。nginx 的 http 模块使用 pcre 来解析正则表达式，所以需要在 linux 上安装 pcre 库。</p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y pcre pcre-devel</span><br></pre></td></tr></table></figure>
+
+<p>注：pcre-devel 是使用 pcre 开发的一个二次开发库。nginx 也需要此库。</p>
+<ul>
+<li><strong>zlib</strong></li>
+</ul>
+<p>zlib 库提供了很多种压缩和解压缩的方式，nginx 使用 zlib 对 http 包的内容进行 gzip，所以需要在 linux 上安装 zlib 库。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y zlib zlib-devel  </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>OpenSSL</strong></li>
+</ul>
+<p>OpenSSL 是一个强大的安全套接字层密码库，囊括主要的密码算法、常用的密钥和证书封装管理功能及 SSL 协议，并提供丰富的应用程序供测试或其它目的使用。nginx 不仅支持 http 协议，还支持 https（即在 ssl 协议上传输 http），所以需要在 linux安装 openssl 库。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y openssl openssl-devel</span><br></pre></td></tr></table></figure>
+
+<h4 id="2、在官网下载Nginx"><a href="#2、在官网下载Nginx" class="headerlink" title="2、在官网下载Nginx"></a>2、在<a href="nginx%EF%BC%9Ahttp://nginx.org/">官网</a>下载Nginx</h4><h4 id="3、Nginx上传安装"><a href="#3、Nginx上传安装" class="headerlink" title="3、Nginx上传安装"></a>3、Nginx上传安装</h4><p>把 nginx 的源码包上传到 linux 系统的/usr/local/nginx 目录下</p>
+<p>解压缩</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf nginx-***.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>进入nginx-***目录  使用 configure 命令创建一 makeFile 文件（注意命令前面有<code>.</code>）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;configure \</span><br><span class="line">--prefix&#x3D;&#x2F;usr&#x2F;local&#x2F;nginx \</span><br><span class="line">--pid-path&#x3D;&#x2F;var&#x2F;run&#x2F;nginx&#x2F;nginx.pid \</span><br><span class="line">--lock-path&#x3D;&#x2F;var&#x2F;lock&#x2F;nginx.lock \</span><br><span class="line">--error-log-path&#x3D;&#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log \</span><br><span class="line">--http-log-path&#x3D;&#x2F;var&#x2F;log&#x2F;nginx&#x2F;access.log \</span><br><span class="line">--with-http_gzip_static_module \</span><br><span class="line">--http-client-body-temp-path&#x3D;&#x2F;var&#x2F;temp&#x2F;nginx&#x2F;client \</span><br><span class="line">--http-proxy-temp-path&#x3D;&#x2F;var&#x2F;temp&#x2F;nginx&#x2F;proxy \</span><br><span class="line">--http-fastcgi-temp-path&#x3D;&#x2F;var&#x2F;temp&#x2F;nginx&#x2F;fastcgi \</span><br><span class="line">--http-uwsgi-temp-path&#x3D;&#x2F;var&#x2F;temp&#x2F;nginx&#x2F;uwsgi \</span><br><span class="line">--http-scgi-temp-path&#x3D;&#x2F;var&#x2F;temp&#x2F;nginx&#x2F;scgi</span><br></pre></td></tr></table></figure>
+
+<p>执行后可以看到Makefile文件</p>
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/23.png" alt="Makefile文件"></p>
+<blockquote>
+<p>Makefile是一种配置文件， Makefile 一个工程中的源文件不计数，其按类型、功能、模块分别放在若干个目录中，makefile定义了一系列的规则来指定，哪些文件需要先编译，哪些文件需要后编译，哪些文件需要重新编译，甚至于进行更复杂的功能操作，因为 makefile就像一个Shell脚本一样，其中也可以执行操作系统的命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">configure参数</span><br><span class="line">.&#x2F;configure \</span><br><span class="line">--prefix&#x3D;&#x2F;usr \                                                        指向安装目录</span><br><span class="line">--sbin-path&#x3D;&#x2F;usr&#x2F;sbin&#x2F;nginx \                                 指向（执行）程序文件（nginx）</span><br><span class="line">--conf-path&#x3D;&#x2F;etc&#x2F;nginx&#x2F;nginx.conf \                      指向配置文件</span><br><span class="line">--error-log-path&#x3D;&#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log \              指向log</span><br><span class="line">--http-log-path&#x3D;&#x2F;var&#x2F;log&#x2F;nginx&#x2F;access.log \            指向http-log</span><br><span class="line">--pid-path&#x3D;&#x2F;var&#x2F;run&#x2F;nginx&#x2F;nginx.pid \                      指向pid</span><br><span class="line">--lock-path&#x3D;&#x2F;var&#x2F;lock&#x2F;nginx.lock \                         （安装文件锁定，防止安装文件被别人利用，或自己误操作。）</span><br><span class="line">--user&#x3D;nginx \</span><br><span class="line">--group&#x3D;nginx \</span><br><span class="line">--with-http_ssl_module \                      启用ngx_http_ssl_module支持（使支持https请求，需已安装</span><br><span class="line">openssl）</span><br><span class="line">--with-http_flv_module \                       启用ngx_http_flv_module支持（提供寻求内存使用基于时间的偏移量文件）</span><br><span class="line">--with-http_stub_status_module \     启用ngx_http_stub_status_module支持（获取nginx自上次启动以来的工作状态）</span><br><span class="line">--with-http_gzip_static_module \   启用ngx_http_gzip_static_module支持（在线实时压缩输出数据流）</span><br><span class="line">--http-client-body-temp-path&#x3D;&#x2F;var&#x2F;tmp&#x2F;nginx&#x2F;client&#x2F; \ 设定http客户端请求临时文件路径</span><br><span class="line">--http-proxy-temp-path&#x3D;&#x2F;var&#x2F;tmp&#x2F;nginx&#x2F;proxy&#x2F; \ 设定http代理临时文件路径</span><br><span class="line">--http-fastcgi-temp-path&#x3D;&#x2F;var&#x2F;tmp&#x2F;nginx&#x2F;fcgi&#x2F; \ 设定http fastcgi临时文件路径</span><br><span class="line">--http-uwsgi-temp-path&#x3D;&#x2F;var&#x2F;tmp&#x2F;nginx&#x2F;uwsgi \ 设定http uwsgi临时文件路径</span><br><span class="line">--http-scgi-temp-path&#x3D;&#x2F;var&#x2F;tmp&#x2F;nginx&#x2F;scgi \ 设定http scgi临时文件路径</span><br><span class="line">--with-pcre 启用pcre库openssl）</span><br><span class="line">--with-http_flv_module \                       启用ngx_http_flv_module支持（提供寻求内存使用基于时间的偏移量文件）</span><br><span class="line">--with-http_stub_status_module \     启用ngx_http_stub_status_module支持（获取nginx自上次启动以来的工作状态）</span><br><span class="line">--with-http_gzip_static_module \   启用ngx_http_gzip_static_module支持（在线实时压缩输出数据流）</span><br><span class="line">--http-client-body-temp-path&#x3D;&#x2F;var&#x2F;tmp&#x2F;nginx&#x2F;client&#x2F; \ 设定http客户端请求临时文件路径</span><br><span class="line">--http-proxy-temp-path&#x3D;&#x2F;var&#x2F;tmp&#x2F;nginx&#x2F;proxy&#x2F; \ 设定http代理临时文件路径</span><br><span class="line">--http-fastcgi-temp-path&#x3D;&#x2F;var&#x2F;tmp&#x2F;nginx&#x2F;fcgi&#x2F; \ 设定http fastcgi临时文件路径</span><br><span class="line">--http-uwsgi-temp-path&#x3D;&#x2F;var&#x2F;tmp&#x2F;nginx&#x2F;uwsgi \ 设定http uwsgi临时文件路径</span><br><span class="line">--http-scgi-temp-path&#x3D;&#x2F;var&#x2F;tmp&#x2F;nginx&#x2F;scgi \ 设定http scgi临时文件路径</span><br><span class="line">--with-pcre 启用pcre库</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h4 id="4、编译"><a href="#4、编译" class="headerlink" title="4、编译"></a>4、编译</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+
+<h4 id="5、安装"><a href="#5、安装" class="headerlink" title="5、安装"></a>5、安装</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<h4 id="6、Nginx启动与访问"><a href="#6、Nginx启动与访问" class="headerlink" title="6、Nginx启动与访问"></a>6、Nginx启动与访问</h4><p>启动nginx 之前，上边将临时文件目录指定为/var/temp/nginx/client， 需要在/var 下创建此 目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir /var/temp/nginx/client -p</span><br></pre></td></tr></table></figure>
+
+<p>进入到Nginx目录下的sbin目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/ngiux/sbin</span><br></pre></td></tr></table></figure>
+
+<p>输入命令启动Nginx（注意命令前面有<code>.</code>）（注意防火墙）</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./nginx</span><br></pre></td></tr></table></figure>
+
+<p>在浏览器访问主机对应ip（端口默认是80）可以访问到nginx页面</p>
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/24.png" alt="nginx页面"></p>
+<p>也可以查看nginx进程:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux|grep nginx</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>关闭 nginx：</p>
+<p>./nginx -s stop  </p>
+<p>或者</p>
+<p>./nginx -s quit  </p>
+</li>
+<li><p>重启 nginx：</p>
+<p>1、先关闭后启动。</p>
+<p>2、刷新配置文件：</p>
+<p>./nginx -s reload  </p>
+</li>
+</ul>
+<h3 id="第六部分：下载安装rabbitmq"><a href="#第六部分：下载安装rabbitmq" class="headerlink" title="第六部分：下载安装rabbitmq"></a>第六部分：下载安装rabbitmq</h3><h4 id="1、在官网下载rabbitmq"><a href="#1、在官网下载rabbitmq" class="headerlink" title="1、在官网下载rabbitmq"></a>1、在<a target="_blank" rel="noopener" href="https://www.rabbitmq.com/install-rpm.html">官网</a>下载rabbitmq</h4><p>注意要下载rabbitmq对应的Erlang、socat</p>
+<h4 id="2、安装依赖环境"><a href="#2、安装依赖环境" class="headerlink" title="2、安装依赖环境"></a>2、安装依赖环境</h4><p>在线安装依赖环境</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install build-essential openssl openssl-devel unixODBC unixODBC-devel make gcc gcc-c++ kernel-devel m4 ncurses-devel tk tc xz</span><br></pre></td></tr></table></figure>
+
+<h4 id="3、上传（以下按照你们下载的版本为主）"><a href="#3、上传（以下按照你们下载的版本为主）" class="headerlink" title="3、上传（以下按照你们下载的版本为主）"></a>3、上传（以下按照你们下载的版本为主）</h4><p>erlang-18.3-1.el7.centos.x86_64.rpm<br>socat-1.7.3.2-5.el7.lux.x86_64.rpm<br>rabbitmq-server-3.6.5-1.noarch.rpm</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装</span></span><br><span class="line">rpm -ivh erlang-18.3-1.el7.centos.x86_64.rpm</span><br></pre></td></tr></table></figure>
+
+<p>如果出现如下错误</p>
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/25.png" alt="错误"></p>
+<p>说明gblic 版本太低。我们可以查看当前机器的gblic 版本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">strings /lib64/libc.so.6 | grep GLIBC</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/26.png" alt="gblic 版本"></p>
+<p>当前最高版本2.12，需要2.15.所以需要升级glibc</p>
+<ul>
+<li><p>使用yum更新安装依赖</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gcc make -y</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载rpm包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">wget http://copr-be.cloud.fedoraproject.org/results/mosquito/myrepo-el6/epel-6-x86_64/glibc-2.17-55.fc20/glibc-utils-2.17-55.el6.x86_64.rpm &amp;</span><br><span class="line">wget http://copr-be.cloud.fedoraproject.org/results/mosquito/myrepo-el6/epel-6-x86_64/glibc-2.17-55.fc20/glibc-static-2.17-55.el6.x86_64.rpm &amp;</span><br><span class="line">wget http://copr-be.cloud.fedoraproject.org/results/mosquito/myrepo-el6/epel-6-x86_64/glibc-2.17-55.fc20/glibc-2.17-55.el6.x86_64.rpm &amp;</span><br><span class="line">wget http://copr-be.cloud.fedoraproject.org/results/mosquito/myrepo-el6/epel-6-x86_64/glibc-2.17-55.fc20/glibc-common-2.17-55.el6.x86_64.rpm &amp;</span><br><span class="line">wget http://copr-be.cloud.fedoraproject.org/results/mosquito/myrepo-el6/epel-6-x86_64/glibc-2.17-55.fc20/glibc-devel-2.17-55.el6.x86_64.rpm &amp;</span><br><span class="line">wget http://copr-be.cloud.fedoraproject.org/results/mosquito/myrepo-el6/epel-6-x86_64/glibc-2.17-55.fc20/glibc-headers-2.17-55.el6.x86_64.rpm &amp;</span><br><span class="line">wget http://copr-be.cloud.fedoraproject.org/results/mosquito/myrepo-el6/epel-6-x86_64/glibc-2.17-55.fc20/nscd-2.17-55.el6.x86_64.rpm &amp;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装rpm包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rpm -Uvh *-2.17-55.el6.x86_64.rpm --force --nodeps</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装完毕后再查看glibc版本,发现glibc版本已经到2.17了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">strings /lib64/libc.so.6 | grep GLIBC</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/27.png" alt="查看glibc版本"></p>
+<h4 id="4-安装RabbitMQ"><a href="#4-安装RabbitMQ" class="headerlink" title="4. 安装RabbitMQ"></a>4. 安装RabbitMQ</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装</span></span><br><span class="line">rpm -ivh socat-1.7.3.2-5.el7.lux.x86_64.rpm</span><br><span class="line"><span class="comment"># 安装</span></span><br><span class="line">rpm -ivh rabbitmq-server-3.6.5-1.noarch.rpm</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="5-开启管理界面及配置"><a href="#5-开启管理界面及配置" class="headerlink" title="5. 开启管理界面及配置"></a>5. 开启管理界面及配置</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 开启管理界面</span></span><br><span class="line">rabbitmq-plugins <span class="built_in">enable</span> rabbitmq_management</span><br><span class="line"><span class="comment"># 修改默认配置信息</span></span><br><span class="line">vim /usr/lib/rabbitmq/lib/rabbitmq_server-3.6.5/ebin/rabbit.app </span><br><span class="line"><span class="comment"># 比如修改密码、配置等等，例如：loopback_users 中的 &lt;&lt;&quot;guest&quot;&gt;&gt;,只保留guest</span></span><br></pre></td></tr></table></figure>
+
+
+<h4 id="6-启动（注意防火墙）"><a href="#6-启动（注意防火墙）" class="headerlink" title="6. 启动（注意防火墙）"></a>6. 启动（注意防火墙）</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">service rabbitmq-server start <span class="comment"># 启动服务</span></span><br><span class="line">service rabbitmq-server stop <span class="comment"># 停止服务</span></span><br><span class="line">service rabbitmq-server restart <span class="comment"># 重启服务</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>设置配置文件</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/share/doc/rabbitmq-server-3.6.5/</span><br><span class="line">cp rabbitmq.config.example /etc/rabbitmq/rabbitmq.config</span><br></pre></td></tr></table></figure>
+
+<p>在浏览器访问主机对应ip加上15672端口可以访问到RabbitMQ页面（用户名密码默认为guest）</p>
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/28.png" alt="RabbitMQ页面"></p>
+<p>出现访问不到RabbitMQ页面问题</p>
+<p>在控制台输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | grep rabbitmq</span><br></pre></td></tr></table></figure>
+
+<p>命令含义：从当前所有进程中查找是否含有rabbitmq进程</p>
+<p>如果有内容显示，则说明 Rabbitmq启动成功</p>
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/29.png" alt="rabbitmq进程"></p>
+<p>否则，重新启动 Rabbitmq</p>
+<h3 id="2-检查能否从-Linux-本地中访问到-Rabbitmq"><a href="#2-检查能否从-Linux-本地中访问到-Rabbitmq" class="headerlink" title="2. 检查能否从 Linux 本地中访问到 Rabbitmq"></a>2. 检查能否从 Linux 本地中访问到 Rabbitmq</h3><p>从控制台输入命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http:&#x2F;&#x2F;localhost:15672</span><br></pre></td></tr></table></figure>
+
+<p>命令含义：访问 <a target="_blank" rel="noopener" href="http://localhost:15672/">http://localhost:15672</a><br> <img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/30.png" alt="linux访问"></p>
+<p>否则，检查 Rabbitmq端口号是否正确</p>
+<h3 id="3-检查-Rabbitmq启动端口号"><a href="#3-检查-Rabbitmq启动端口号" class="headerlink" title="3. 检查 Rabbitmq启动端口号"></a>3. 检查 Rabbitmq启动端口号</h3><p>Rabbitmq 默认的启动端口号是 15672，如果你没有对 Rabbitmq 的配置文件做修改的话应该是没有问题的<br>输入命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | grep rabbitmq</span><br></pre></td></tr></table></figure>
+
+<p>命令含义：查看 Rabbitmq进程信息</p>
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/31.png" alt=" Rabbitmq进程信息"></p>
+<p>查看进程号（图中红色框位置）</p>
+<p>接着输入命令：（注：grep 后跟的就是上一步所查的进程号）<br>命令含义：查看 9810进程占用的端口号<br> <img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/32.png" alt="端口号"></p>
+<p>图中红色框位置即是你的 Rabbitmq的启动端口号</p>
+<h3 id="4-检查远程访问的-ip-地址是否正确"><a href="#4-检查远程访问的-ip-地址是否正确" class="headerlink" title="4. 检查远程访问的 ip 地址是否正确"></a>4. 检查远程访问的 ip 地址是否正确</h3><p>如果从 Linux 本地可以成功访问 Rabbitmq服务器，而从 Windows（主机） 上无法访问，那么首先检查远程访问的 ip 地址是否正确<br>在 Liunx 控制台上输入命令:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/33.png" alt="查看主机ip"></p>
+<p>图中位置即是 Linux 的 ip 地址，若此处没出现ens33的ip地址，可能是网络配置没配置好，解决方法具体请见<a target="_blank" rel="noopener" href="https://www.itdaan.com/link/aHR0cHM6Ly93d3cuY25ibG9ncy5jb20vemlweHpmL3AvMTEyMzcyNjkuaHRtbA==">https://www.cnblogs.com/zipxzf/p/11237269.html</a></p>
+<h3 id="5-检查-Linux-防火墙是否开放-Rabbitmq端口号"><a href="#5-检查-Linux-防火墙是否开放-Rabbitmq端口号" class="headerlink" title="5. 检查 Linux 防火墙是否开放 Rabbitmq端口号"></a>5. 检查 Linux 防火墙是否开放 Rabbitmq端口号</h3><p>参考的是zipxzf的<a target="_blank" rel="noopener" href="https://www.cnblogs.com/zipxzf/p/11249846.html">在Centos7中,从主机 Windows 上无法远程访问 Linux 上rabbitmq的解决方法</a>这篇博客，加上自己的一些补充</p>
+<p>当window能够ping通linux的ip，而还是不能通过ip在windows上访问linux的一些服务，如tomcat、mysql、nginx、rabbitmq等服务，最可能的原因是linux的防火墙问题。</p>
+<p>如果你没有修改过 Linux 防火墙配置的话，那么 Rabbitmq 端口号一定是被禁用了 ，因为 Linux 防火墙默认只开启 22 号端口。</p>
+<p>你需要设置防火墙配置，开放 Rabbitmq的端口号 （<strong>注：网上有其他解决方法说直接关闭防火墙，这种方法很不可取</strong>）</p>
+<p>我的 Linux 版本是 CentOS 7 ，在CentOS 7或RHEL 7或Fedora中防火墙由firewalld来管理，如果要添加范围例外端口 如 1000-2000</p>
+<p>语法命令如下：启用区域端口和协议组合</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd [--zone&#x3D;&lt;zone&gt;] --add-port&#x3D;&lt;port&gt;[-&lt;port&gt;]&#x2F;&lt;protocol&gt; [--timeout&#x3D;&lt;seconds&gt;]</span><br></pre></td></tr></table></figure>
+
+<p>此举将启用端口和协议的组合。端口可以是一个单独的端口 <port> 或者是一个端口范围 <port>-<port> 。协议可以是 tcp 或 udp。</port></port></port></p>
+<p>实际命令如下：</p>
+<p>　　添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --zone&#x3D;public --add-port&#x3D;80&#x2F;tcp --permanent （--permanent永久生效，没有此参数重启后失效）</span><br><span class="line"></span><br><span class="line">firewall-cmd --zone&#x3D;public --add-port&#x3D;1000-2000&#x2F;tcp --permanent </span><br></pre></td></tr></table></figure>
+
+<p>　　重新载入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+
+<p>　　查看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --zone&#x3D;public --query-port&#x3D;80&#x2F;tcp</span><br></pre></td></tr></table></figure>
+
+<p>　　删除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --zone&#x3D;public --remove-port&#x3D;80&#x2F;tcp --permanent</span><br></pre></td></tr></table></figure>
+
+<p>此处的解决方案是开放 15672端口号只需输入命令：(<strong>注：若python无法连接Rabbitmq，同理，则需要开放5672端口号</strong>)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --zone&#x3D;public --add-port&#x3D;15672&#x2F;tcp --permanent</span><br></pre></td></tr></table></figure>
+
+<p>然后重启防火墙，即可解决：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+
+<p> 成功访问rabbitmq管理页面</p>
+<p><img src="/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/34.png" alt="rabbitmq管理页面"></p>
+<h3 id="6、配置防火墙"><a href="#6、配置防火墙" class="headerlink" title="6、配置防火墙"></a>6、配置防火墙</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看防火墙状态 </span></span><br><span class="line">systemctl status firewalld.service</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 关闭防火墙 </span></span><br><span class="line">systemctl stop firewalld.service</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动防火墙</span></span><br><span class="line">systemctl start firewalld.service</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 重启防火墙</span></span><br><span class="line">systemctl restart firewalld.service</span><br><span class="line"> </span><br><span class="line">单独开放端口号：</span><br><span class="line"></span><br><span class="line">firewall-cmd --permanent --zone=public --add-port=8080(端口号)/tcp</span><br><span class="line"></span><br><span class="line">firewall-cmd --reload</span><br><span class="line"></span><br><span class="line">firewall-cmd --zone=public --query-port=8080(端口号)/tcp</span><br></pre></td></tr></table></figure>
+
+<p>需要开放的端口号：</p>
+<p>mysql：3306</p>
+<p>tomcat：8080</p>
+<p>redis：6379</p>
+<p>nginx：80</p>
+<p>RabbitMQ：15672,25672,5672</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>XGH_little-star
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://xgh-user.github.io/2020/11/08/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS%E7%9A%84Linux%E4%B8%8B%E8%BD%BDjdk%E3%80%81mysql%E3%80%81tomcat%E3%80%81redis%E3%80%81nginx%E3%80%81rabbitmq/" title="如何在CentOS的Linux下载jdk、mysql、tomcat、redis、ngiux、rabbitmq">http://xgh-user.github.io/2020/11/08/如何在CentOS的Linux下载jdk、mysql、tomcat、redis、nginx、rabbitmq/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux%E8%BD%AF%E4%BB%B6%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85/" rel="tag"># Linux软件下载安装</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/08/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" rel="prev" title="Springcloud">
+      <i class="fa fa-chevron-left"></i> Springcloud
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/09/01%E5%85%B3%E4%BA%8Ejava/" rel="next" title="01关于java">
+      01关于java <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%99%E7%A8%8B%E5%88%86%E5%85%AD%E4%B8%AA%E9%83%A8%E5%88%86"><span class="nav-number">1.</span> <span class="nav-text">教程分六个部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86%EF%BC%9A%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85jdk"><span class="nav-number">1.1.</span> <span class="nav-text">第一部分：下载安装jdk</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81%E5%9C%A8%E5%AE%98%E7%BD%91%E4%B8%8B%E8%BD%BD%E8%87%AA%E5%B7%B1%E6%89%80%E9%9C%80%E7%89%88%E6%9C%AC%E7%9A%84jdk%EF%BC%88linux%E7%89%88%EF%BC%89"><span class="nav-number">1.1.1.</span> <span class="nav-text">1、在官网下载自己所需版本的jdk（linux版）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E3%80%81%E5%8D%B8%E8%BD%BDlinux%E5%8F%AF%E8%83%BD%E8%87%AA%E5%B8%A6%E7%9A%84open-JDK"><span class="nav-number">1.1.2.</span> <span class="nav-text">2、卸载linux可能自带的open-JDK</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E3%80%81%E4%B8%8A%E4%BC%A0%E5%AE%89%E8%A3%85jdk"><span class="nav-number">1.1.3.</span> <span class="nav-text">3、上传安装jdk</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4%E3%80%81%E9%85%8D%E7%BD%AEJDK%E7%9A%84%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-number">1.1.4.</span> <span class="nav-text">4、配置JDK的环境变量:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%EF%BC%9A%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85mysql"><span class="nav-number">1.2.</span> <span class="nav-text">第二部分：下载安装mysql</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81%E6%B3%A8%E6%84%8F%EF%BC%9A"><span class="nav-number">1.2.1.</span> <span class="nav-text">1、注意：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E3%80%81%E5%AE%89%E8%A3%85%E5%89%8D%E5%87%86%E5%A4%87"><span class="nav-number">1.2.2.</span> <span class="nav-text">2、安装前准备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E3%80%81%E5%AE%89%E8%A3%85Mysql"><span class="nav-number">1.2.3.</span> <span class="nav-text">3、安装Mysql</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8%E6%83%85%E5%86%B5"><span class="nav-number">1.2.4.</span> <span class="nav-text">异常情况</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86%EF%BC%9A%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85tomcat"><span class="nav-number">1.3.</span> <span class="nav-text">第三部分：下载安装tomcat</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81%E5%9C%A8%E5%AE%98%E7%BD%91%E4%B8%8B%E8%BD%BDtomcat"><span class="nav-number">1.3.1.</span> <span class="nav-text">1、在官网下载tomcat</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E3%80%81%E4%B8%8A%E4%BC%A0%E5%AE%89%E8%A3%85tomcat"><span class="nav-number">1.3.2.</span> <span class="nav-text">2、上传安装tomcat</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E9%83%A8%E5%88%86%EF%BC%9A%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85redis"><span class="nav-number">1.4.</span> <span class="nav-text">第四部分：下载安装redis</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81%E5%AE%89%E8%A3%85gcc-c"><span class="nav-number">1.4.1.</span> <span class="nav-text">1、安装gcc-c++</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E3%80%81%E5%9C%A8%E5%AE%98%E7%BD%91%E4%B8%8B%E8%BD%BD%E6%89%80%E9%9C%80%E7%9A%84redis"><span class="nav-number">1.4.2.</span> <span class="nav-text">2、在官网下载所需的redis</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E3%80%81%E4%B8%8A%E4%BC%A0%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85tomcat"><span class="nav-number">1.4.3.</span> <span class="nav-text">3、上传编译安装tomcat</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4%E3%80%81%E9%85%8D%E7%BD%AEredis"><span class="nav-number">1.4.4.</span> <span class="nav-text">4、配置redis</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5%E3%80%81%E5%90%AF%E5%8A%A8redis"><span class="nav-number">1.4.5.</span> <span class="nav-text">5、启动redis</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E9%83%A8%E5%88%86%EF%BC%9A%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85nginx"><span class="nav-number">1.5.</span> <span class="nav-text">第五部分：下载安装nginx</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81%E5%AE%89%E8%A3%85%E5%89%8D%E7%9A%84%E5%87%86%E5%A4%87"><span class="nav-number">1.5.1.</span> <span class="nav-text">1、安装前的准备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E3%80%81%E5%9C%A8%E5%AE%98%E7%BD%91%E4%B8%8B%E8%BD%BDNginx"><span class="nav-number">1.5.2.</span> <span class="nav-text">2、在官网下载Nginx</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E3%80%81Nginx%E4%B8%8A%E4%BC%A0%E5%AE%89%E8%A3%85"><span class="nav-number">1.5.3.</span> <span class="nav-text">3、Nginx上传安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4%E3%80%81%E7%BC%96%E8%AF%91"><span class="nav-number">1.5.4.</span> <span class="nav-text">4、编译</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5%E3%80%81%E5%AE%89%E8%A3%85"><span class="nav-number">1.5.5.</span> <span class="nav-text">5、安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6%E3%80%81Nginx%E5%90%AF%E5%8A%A8%E4%B8%8E%E8%AE%BF%E9%97%AE"><span class="nav-number">1.5.6.</span> <span class="nav-text">6、Nginx启动与访问</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E9%83%A8%E5%88%86%EF%BC%9A%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85rabbitmq"><span class="nav-number">1.6.</span> <span class="nav-text">第六部分：下载安装rabbitmq</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81%E5%9C%A8%E5%AE%98%E7%BD%91%E4%B8%8B%E8%BD%BDrabbitmq"><span class="nav-number">1.6.1.</span> <span class="nav-text">1、在官网下载rabbitmq</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E3%80%81%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96%E7%8E%AF%E5%A2%83"><span class="nav-number">1.6.2.</span> <span class="nav-text">2、安装依赖环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E3%80%81%E4%B8%8A%E4%BC%A0%EF%BC%88%E4%BB%A5%E4%B8%8B%E6%8C%89%E7%85%A7%E4%BD%A0%E4%BB%AC%E4%B8%8B%E8%BD%BD%E7%9A%84%E7%89%88%E6%9C%AC%E4%B8%BA%E4%B8%BB%EF%BC%89"><span class="nav-number">1.6.3.</span> <span class="nav-text">3、上传（以下按照你们下载的版本为主）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E5%AE%89%E8%A3%85RabbitMQ"><span class="nav-number">1.6.4.</span> <span class="nav-text">4. 安装RabbitMQ</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E5%BC%80%E5%90%AF%E7%AE%A1%E7%90%86%E7%95%8C%E9%9D%A2%E5%8F%8A%E9%85%8D%E7%BD%AE"><span class="nav-number">1.6.5.</span> <span class="nav-text">5. 开启管理界面及配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-%E5%90%AF%E5%8A%A8%EF%BC%88%E6%B3%A8%E6%84%8F%E9%98%B2%E7%81%AB%E5%A2%99%EF%BC%89"><span class="nav-number">1.6.6.</span> <span class="nav-text">6. 启动（注意防火墙）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%A3%80%E6%9F%A5%E8%83%BD%E5%90%A6%E4%BB%8E-Linux-%E6%9C%AC%E5%9C%B0%E4%B8%AD%E8%AE%BF%E9%97%AE%E5%88%B0-Rabbitmq"><span class="nav-number">1.7.</span> <span class="nav-text">2. 检查能否从 Linux 本地中访问到 Rabbitmq</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%A3%80%E6%9F%A5-Rabbitmq%E5%90%AF%E5%8A%A8%E7%AB%AF%E5%8F%A3%E5%8F%B7"><span class="nav-number">1.8.</span> <span class="nav-text">3. 检查 Rabbitmq启动端口号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%A3%80%E6%9F%A5%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AE%E7%9A%84-ip-%E5%9C%B0%E5%9D%80%E6%98%AF%E5%90%A6%E6%AD%A3%E7%A1%AE"><span class="nav-number">1.9.</span> <span class="nav-text">4. 检查远程访问的 ip 地址是否正确</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%A3%80%E6%9F%A5-Linux-%E9%98%B2%E7%81%AB%E5%A2%99%E6%98%AF%E5%90%A6%E5%BC%80%E6%94%BE-Rabbitmq%E7%AB%AF%E5%8F%A3%E5%8F%B7"><span class="nav-number">1.10.</span> <span class="nav-text">5. 检查 Linux 防火墙是否开放 Rabbitmq端口号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6%E3%80%81%E9%85%8D%E7%BD%AE%E9%98%B2%E7%81%AB%E5%A2%99"><span class="nav-number">1.11.</span> <span class="nav-text">6、配置防火墙</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">_little-star_</p>
+  <div class="site-description" itemprop="description">记录个人在平时学习的过程中的一些笔记、感受与遇到的坑,例如：java、计算机考研四件套等等。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">_little-star_</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
