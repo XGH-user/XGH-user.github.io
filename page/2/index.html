@@ -150,6 +150,899 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://xgh-user.github.io/2020/11/10/02java%E8%AF%AD%E6%B3%95%E8%A7%84%E5%88%99%E5%92%8C%E8%A7%84%E8%8C%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="_little-star_">
+      <meta itemprop="description" content="记录个人在平时学习的过程中的一些笔记、感受与遇到的坑,例如：java、计算机考研四件套等等。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="_little-star_">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/10/02java%E8%AF%AD%E6%B3%95%E8%A7%84%E5%88%99%E5%92%8C%E8%A7%84%E8%8C%83/" class="post-title-link" itemprop="url">02java语法规则和规范</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-10 02:49:30 / 修改时间：02:51:45" itemprop="dateCreated datePublished" datetime="2020-11-10T02:49:30+08:00">2020-11-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javase/" itemprop="url" rel="index"><span itemprop="name">javase</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javase/java%E8%AF%AD%E6%B3%95%E8%A7%84%E5%88%99%E5%92%8C%E8%A7%84%E8%8C%83/" itemprop="url" rel="index"><span itemprop="name">java语法规则和规范</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>需要掌握的内容：</p>
+<ul>
+<li><p>标识符</p>
+</li>
+<li><p>关键字</p>
+</li>
+<li><p>字面值</p>
+</li>
+<li><p>变量</p>
+</li>
+<li><p>数据类型</p>
+</li>
+<li><p>运算符：</p>
+<ul>
+<li>算术运算符</li>
+<li>关系运算符</li>
+<li>逻辑运算符</li>
+<li>赋值类运算符</li>
+<li>字符串连接运算符</li>
+<li>三元运算符</li>
+<li>赋值运算符</li>
+<li>字符串连接运算符</li>
+</ul>
+</li>
+<li><p>控制语句</p>
+<ul>
+<li>选择结构<ul>
+<li>if,if..else</li>
+<li>switch</li>
+</ul>
+</li>
+<li>循环结构<ul>
+<li>for</li>
+<li>while</li>
+<li>do..while()</li>
+</ul>
+</li>
+<li>控制循环的语句<ul>
+<li>break</li>
+<li>continue</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="1、标识符："><a href="#1、标识符：" class="headerlink" title="1、标识符："></a>1、标识符：</h3><p>1、在java程序当中，使用EditPlus工具进行代码编写的时候，</p>
+<p>有一些单词是蓝色，有的是红色，有的绿色，有的是黑色，有</p>
+<p>的是紫色，有的是粉色….</p>
+<p>2、注意：在java源代码当中，在EditPlus工具中显示的高亮颜色为黑色时，<br>这个单词属于标识符。</p>
+<p>3、标识符可以标识什么？<br>可以标识：</p>
+<ul>
+<li>类名</li>
+<li>方法名</li>
+<li>变量名</li>
+<li>接口名</li>
+<li>常量名</li>
+<li>……</li>
+</ul>
+<p>4、到底什么是标识符呢？<br>一句话搞定：凡是程序员自己有权利命名的单词都是标识符。</p>
+<p>5、标识符可以随意编写吗，有命名规则吗？有<br>什么是命名规则？<br>    命名规则属于语法机制，必须遵守，不遵守命名规则标识不符合语法，<br>    这样，编译器会报错。</p>
+<ul>
+<li><p>规则1：标识符只能由数字、字母（包括中文）、下划线_、美元符号$组成，<br>不能含有其它符号。</p>
+</li>
+<li><p>规则2：标识符不能以数字开头</p>
+</li>
+<li><p>规则3：关键字不能做标识符。例如：public class static void 这些蓝色的字体</p>
+<p>都是关键字，关键字是不能做标识符的。</p>
+</li>
+<li><p>规则4：标识符是严格区分大小写的。大写A和小写a不一样。</p>
+</li>
+<li><p>规则5：标识符理论上是没有长度限制的。</p>
+</li>
+</ul>
+<p>6、注意的点：</p>
+<p>class 123ABC{<br>        }<br>    编译报错，错误信息是：<br>        错误: 需要&lt;标识符&gt;<br>    错误原因：编译器检测到class这个单词，那么编译器会从class这个<br>    单词后面找类名，而类名是标识符，编译器找了半天没有找到标识符，<br>    因为123ABC不是标识符，所以编译器提示的错误信息是：需要&lt;标识符&gt;<br>    解决办法：<br>        将123ABC修改为合法的标识符。</p>
+<p>class Hello World{<br>        }<br>    <strong>类名是标识符，标识符“中”不能有空格</strong><br>    编译器错误信息是：<br>        错误: 需要’{‘<br>    编译器检测到class，然后找class后面的标识符，编译器找到了一个合法的标识符<br>    叫做“Hello”，然后编译器继续往后找“{”，结果没有找到“{”，所以报错了。<br>    解决办法：<br>        办法1：是把World删除<br>        办法2：把空格删除</p>
+<p>class public {<br>        }<br>    <strong>关键字不能做标识符</strong><br>    编译器错误信息是：<br>        错误: 需要&lt;标识符&gt;</p>
+<p>这个可以，因为 public1 不是关键字，可以用<br>class public1 {<br>        }</p>
+<pre><code>* 虽然java中的标识符严格区分大小写
+* 但是对于类名来说，如果一个java源文件中同时出现了：A类和a类
+* 那么谁在前就生成谁。大家以后最好不要让类名“相同”。
+* 最好类名是不同的。</code></pre>
+<p>7、题目：<br>        创建一个java文件，起名 123.java可以吗？<br>        可以，完全可以，在windows操作系统中文件名叫做：123.java没毛病。<br>        123其实并不是标识符。只是一个文件名。<br>        只不过在123.java文件中无法定义public的类。<br>8、命名规范：<br>1、命名规则和命名规范有什么区别？</p>
+<p>命名规则是语法，不遵守就会编译报错。</p>
+<p>命名规范只是说，大家尽量按照统一的规范来进行命名，不符合规范也行，</p>
+<p>代码是可以编译通过的，但是你的代码风格和大家不一样，这个通常也是不允许的。</p>
+<p>规则类似于：现实世界中的法律。</p>
+<p>规范类似于：现实世界中的道德。</p>
+<p>统一按照规范进行的话，代码的可读性很好。代码很容易让其它开发人员理解。</p>
+<p>2、具体的命名规范是哪些？</p>
+<ul>
+<li>规范1：见名知意（这个标识符在起名的时候，最好一看这个单词就知道啥意思。）</li>
+<li>规范2：遵循驼峰命名方式，什么是驼峰（一高一低，一高一低…）<br>驼峰有利于单词与单词之间很好的进行分隔<br>BiaoShiFuTest，这个很好，一眼就能看出来是4个单词。</li>
+<li>规范3：类名、接口名有特殊要求<br>类名和接口名首字母大写，后面每个单词首字母大写。<br>StudentTest、UserTest ，这是类名、接口名。</li>
+<li>规范4：变量名、方法名有特殊要求<br>变量名和方法名首字母小写，后面每个单词首字母大写。<br>nianLing/age（NianLing这样就不符合了。）<br>mingZi/name（MingZi这样也不符合了。）</li>
+<li>规范5：所有“常量”名：全部大写，并且单词和单词之间采用下划线衔接。<br>USER_AGE ：用户年龄<br>MATH_PI：固定不变的常量3.1415926…..</li>
+</ul>
+<h3 id="2、关键字："><a href="#2、关键字：" class="headerlink" title="2、关键字："></a>2、关键字：</h3><p>关键字:</p>
+<p>在SUN公司开发Java语言的时候，提前定义好了一些具有特殊含义的单词，这些单词全部小写，具有特殊含义，不能用作标识符。凡是在EditPlus中以蓝色字体形式存在的都是关键字，具有特殊含义。</p>
+<p>切记：</p>
+<ul>
+<li><p>java语言中的所有关键字都是全部小写。</p>
+</li>
+<li><p>注意：java语言中是严格区分大小写的。</p>
+<p>public和Public不一样。</p>
+<p>Class和class不一样。</p>
+<p>static和Static也不一样。</p>
+</li>
+<li><p><strong>重点</strong>：string不是java关键字！！！</p>
+</li>
+</ul>
+<p>Java关键字(50个)的大致含义(运用记忆)：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">关键字			含义</span><br><span class="line">	<span class="keyword">abstract</span>		表明类或者成员方法具有抽象属性</span><br><span class="line">	<span class="keyword">assert</span>			用来进行程序调试</span><br><span class="line">	<span class="keyword">boolean</span>			基本数据类型之一，布尔类型</span><br><span class="line">	<span class="keyword">break</span>			提前跳出一个块</span><br><span class="line">	<span class="keyword">byte</span>			基本数据类型之一，字节类型</span><br><span class="line">	<span class="keyword">case</span>			用在<span class="keyword">switch</span>语句之中，表示其中的一个分支</span><br><span class="line">	<span class="keyword">catch</span>			用在异常处理中，用来捕捉异常</span><br><span class="line">	<span class="keyword">char</span>			基本数据类型之一，字符类型</span><br><span class="line">	<span class="class"><span class="keyword">class</span>			类</span></span><br><span class="line"><span class="class">	<span class="title">const</span>			保留关键字，没有具体含义</span></span><br><span class="line"><span class="class">	<span class="title">continue</span>		回到一个块的开始处</span></span><br><span class="line"><span class="class">	<span class="title">default</span>			默认，例如，用在<span class="title">switch</span>语句中，表明一个默认的分支</span></span><br><span class="line"><span class="class">	<span class="title">do</span>				用在<span class="title">do</span>-<span class="title">while</span>循环结构中</span></span><br><span class="line"><span class="class">	<span class="title">double</span>			基本数据类型之一，双精度浮点数类型</span></span><br><span class="line"><span class="class">	<span class="title">else</span>			用在条件语句中，表明当条件不成立时的分支</span></span><br><span class="line"><span class="class">	<span class="title">enum</span>			枚举</span></span><br><span class="line"><span class="class">	<span class="keyword">extends</span>			表明一个类型是另一个类型的子类型，这里常见的类型有类和接口</span></span><br><span class="line"><span class="class">	<span class="title">final</span>			用来说明最终属性，表明一个类不能派生出子类，或者成员方法不能被覆盖，或者成员					 	    域的值不能被改变，用来定义常量</span></span><br><span class="line"><span class="class">	<span class="title">finally</span>			用于处理异常情况，用来声明一个基本肯定会被执行到的语句块</span></span><br><span class="line"><span class="class">	<span class="title">float</span>			基本数据类型之一，单精度浮点数类型</span></span><br><span class="line"><span class="class">	<span class="title">for</span>				一种循环结构的引导词</span></span><br><span class="line"><span class="class">	<span class="title">goto</span>			保留关键字，没有具体含义</span></span><br><span class="line"><span class="class">	<span class="title">if</span>				条件语句的引导词</span></span><br><span class="line"><span class="class">	<span class="keyword">implements</span>		表明一个类实现了给定的接口</span></span><br><span class="line"><span class="class">	<span class="title">import</span>			表明要访问指定的类或包</span></span><br><span class="line"><span class="class">	<span class="title">instance</span> <span class="title">of</span>		用来测试一个对象是否是指定类型的实例对象</span></span><br><span class="line"><span class="class">	<span class="title">int</span>				基本数据类型之一，整数类型</span></span><br><span class="line"><span class="class">	<span class="title">interface</span>		接口</span></span><br><span class="line"><span class="class">	<span class="title">long</span>			基本数据类型之一，长整数类型</span></span><br><span class="line"><span class="class">	<span class="title">native</span>			用来声明一个方法是由与计算机相关的语言(如<span class="title">C</span>/<span class="title">C</span>++/<span class="title">FORTRAN</span>语言)实现的</span></span><br><span class="line"><span class="class">	<span class="title">new</span>				用来创建新实例对象</span></span><br><span class="line"><span class="class">	<span class="title">package</span>			包</span></span><br><span class="line">	private			一种访问控制方式:私用模式</span><br><span class="line">	<span class="keyword">protected</span>		一种访问控制方式:保护模式</span><br><span class="line">	<span class="keyword">public</span>			一种访问控制方式:共用模式</span><br><span class="line">	<span class="keyword">return</span>			从成员方法中返回数据</span><br><span class="line">	<span class="keyword">short</span>			基本数据类型之一,短整数类型</span><br><span class="line">	<span class="keyword">static</span>			表明具有静态属性</span><br><span class="line">	<span class="keyword">strictfp</span>		用来声明FP_strict(单精度或双精度浮点数)表达式遵循IEEE <span class="number">754</span>算术规范</span><br><span class="line">	<span class="keyword">super</span>			表明当前对象的父类型的引用或者父类型的构造方法</span><br><span class="line">	<span class="keyword">switch</span>			分支语句结构的引导词</span><br><span class="line">	<span class="keyword">synchronized</span>	表明一段代码需要同步执行</span><br><span class="line">	<span class="keyword">this</span>			指向当前实例对象的引用</span><br><span class="line">	<span class="keyword">throw</span>			抛出一个异常</span><br><span class="line">	<span class="keyword">throws</span>			声明在当前定义的成员方法中所有需要抛出的异常</span><br><span class="line">	<span class="keyword">transient</span>		声明不用序列化的成员域</span><br><span class="line">	<span class="keyword">try</span>				尝试一个可能抛出异常的程序块</span><br><span class="line">	<span class="keyword">void</span>			声明当前成员方法没有返回值</span><br><span class="line">	<span class="keyword">volatile</span>		表明两个或者多个变量必须同步地发生变化</span><br><span class="line">	<span class="keyword">while</span>			用在循环结构中</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3、字面量："><a href="#3、字面量：" class="headerlink" title="3、字面量："></a>3、字面量：</h3><p>关于程序当中的数据<br>        开发软件是为了解决现实世界中的问题。<br>        而现实世界当中，有很多问题都是使用数据进行描述的。<br>        所以软件执行过程中最主要就是对数据的处理。</p>
+<p>软件在处理数据之前需要能够表示数据，在java代码中怎么去表示数据呢？在java中有这样的一个概念：字面量。</p>
+<p>注意：在java语言中“数据”被称为“字面量”。<br>        10<br>        1.23<br>        true<br>        false<br>        ‘a’<br>        “abc”<br>        以上这些都是数据，在程序中都被叫做“字面量”。</p>
+<p>字面量可以分为很多种类：<br>    整数型字面量：1 2 3 100 -100 -20 ….<br>    浮点型字面量：1.3 1.2 3.14…..<br>    布尔型字面量：true、false没有其它值了，表示真和假,true表示真，false表示假<br>    字符型字面量：’a’、’b’、’中’<br>    字符串型字面量：”abc”、”a”、”b”、”中国”<br>其中字符型和字符串型都是描述了现实世界中的文字：<br>需要注意的是：<br>    所有的字符型只能使用单引号括起来。<br>    所有的字符串型只能使用双引号括起来。<br>    字符型一定是单个字符才能成为“字符型”<br>在语法级别上区分字符型和字符串型：<br>    主要看是双引号还是单引号。<br>    单引号的一定是字符型。<br>    双引号的一定是字符串型。</p>
+<h3 id="4、变量："><a href="#4、变量：" class="headerlink" title="4、变量："></a>4、变量：</h3><p>变量的定义：<br>        变量其实就是内存当中存储数据的最基本的单元。<br>        变量就是一个存储数据的盒子。</p>
+<p>在java语言当中任何数据都是有数据类型的，其中整数型是：int<br>当然，在java中除了数据类型int之外，还有其它的类型，例如带小数的：double等<br>数据类型有什么用呢？<br>    重点：不同的数据类型，在内存中分配的空间大小不同。<br>    也就是说，Java虚拟机到底给这个数据分配多大的空间，主要还是看这个变量的数据类型。<br>    根据不同的类型，分配不同大小的空间。<br>    对于int这种整数类型，JVM会自动给int分配4个字节大小的空间。</p>
+<p>1个字节=8个比特位<br>1个比特位就是一个1或0. 注意：比特位是二进制位。<br>int是占用多少个二进制位？1个int占有32个二进制位（bit位）<br>int i = 1; 实际上在内存中是这样表示的：<br>    00000000 00000000 00000000 00000001<br>int i = 2;<br>    00000000 00000000 00000000 00000010<br>二进制位就是：满2进1位（0 1 10 11 100 101….）<br>十进制位就是：满10进1位（1 2 3 4 5 6 7 8 9 10）</p>
+<p>对于一个变量来说，包括三要素：</p>
+<ul>
+<li>变量的数据类型</li>
+<li>变量的名字</li>
+<li>变量中保存的值</li>
+</ul>
+<p>类型+名字+值<br>    类型决定空间的大小。<br>    起个名字是为了以后方便访问。（以后在程序中访问这个数据是通过名称来访问的。）<br>    值是变量保存的数据。</p>
+<p>变量名属于标识符</p>
+<ul>
+<li>变量名命名规范</li>
+<li>首字母小写，后面每个单词首字母大写，遵循驼峰命名方式，见名知意。</li>
+</ul>
+<p>变量声明/定义的语法格式<br>    数据类型 变量名;<br>    例如：<br>        int nianLing;</p>
+<p>在java语言中有一个规定，变量必须先声明，再赋值才能访问。（没有值相当于这个空间没有开辟。）<br>在java语言中给一个变量赋值呢的语法格式<br>    重点：使用一个运算符，叫做“=”，这个运算符被称为赋值运算符。<br>    赋值运算符“=”的运算特点是：等号右边先执行，执行完之后赋值给左边的变量。<br>变量声明的时候可以同时进行赋值。<br>一行同时声明多个变量。<br>重点：在同一个域当中，变量名不能重名，不能重复声明（和类型没有关系。不能同名。）。<br>变量可以重新赋值，但在同一个域当中，不能重复声明。</p>
+<p>关于变量的一个分类：<br>    变量根据出现的位置进行划分：<br>        在方法体当中声明的变量：局部变量。<br>        在方法体之外，类体内声明的变量：成员变量。<br>        重点依据是：声明的位置。<br>注意：局部变量只在方法体当中有效，方法体执行结束该变量的内存就释放了。</p>
+<p>变量的作用域：</p>
+<ul>
+<li>作用域的定义:<br>变量的有效范围。</li>
+<li>关于变量的作用域，可以记住一句话：<br>出了大括号就不认识了。</li>
+<li>java中有一个很重要的原则：<br>就近原则。（不仅java中是这样，其它编程语言都有这个原则。）<br>哪个离我近，就访问哪个。</li>
+</ul>
+<h3 id="5、数据类型："><a href="#5、数据类型：" class="headerlink" title="5、数据类型："></a>5、数据类型：</h3><p>数据类型有什么用？<br>        数据类型用来声明变量，程序在运行过程中根据不同的数据类型分配不同大小的空间。<br>        int i = 10;<br>        double d = 1.23;<br>        i变量和d变量类型不同，空间大小不同。</p>
+<h4 id="总述"><a href="#总述" class="headerlink" title="总述"></a>总述</h4><ul>
+<li>数据类型在java语言中包括两种：<ul>
+<li>基本数据类型<br>基本数据类型又可以划分为4大类8小种：<ul>
+<li>整数型<br>byte,short,int,long （没有小数的）</li>
+<li>浮点型<br>float,double （带有小数的）</li>
+<li>布尔型<br>boolean：只有两个值true和false，true表示真，false表示假</li>
+<li>字符型<br>char：java中规定字符型字面量必须使用单引号括起来。属于文字。</li>
+<li>8小种：<ul>
+<li>byte,short,int,long</li>
+<li>float,double</li>
+<li>boolean</li>
+<li>char</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>引用数据类型<pre><code>字符串型String属于引用数据类型。
+String字符串不属于基本数据类型范畴。
+java中除了基本数据类型之外，剩下的都是引用数据类型。
+引用数据类型后期面向对象的时候才会接触。</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<p>8种基本数据类型中<br>    整数型：byte short int long有什么区别？<br>    浮点型：float和double有什么区别？<br>    区别：占用的空间大小不同。</p>
+<p>关于计算机存储单位？<br>    计算机只能识别二进制。（1001101100…）<br>    1字节 = 8bit（8比特）–&gt; 1byte = 8bit<br>    1bit就是一个1或0.<br>    1KB = 1024byte<br>    1MB = 1024KB<br>    1GB = 1024MB<br>    1TB = 1024GB</p>
+<p>?    byte b = 2; 在计算机中是这样表示的：00000010<br>?    short s = 2; 在计算机中是这样表示的：00000000 00000010<br>?    int i = 2;在计算机中是这样表示的：00000000 00000000 00000000 00000010<br>?    …</p>
+<p>?    类型            占用字节数量(byte)</p>
+<p>?    byte                1<br>?    short                2<br>?    int                    4<br>?    long                8<br>?    float                4<br>?    double            8<br>?    boolean        1  (1byte的1或0，00000001(true)或00000000(false))<br>?    char                2</p>
+<p>关于二进制：<br>1            2                3            4                5                6            7<br>1            10                11            100            101            110        111  ….<br>十进制转换成二进制<br>125 转换成二进制：<br>    办法：除以2，然后余数逆序输出：1111101<br>二进制转换成十进制<br>    2的2次方   2的1次方 2的0次方<br>    1                1            1<br>    4                2            1<br>    1<em>4 + 1</em>2 + 1*1 = 7</p>
+<p>?    2的2次方   2的1次方 2的0次方<br>?    1            0            1<br>?    4            2            1<br>?    1<em>4 + 0</em>2 + 1*1 = 5</p>
+<p>byte类型的取值范围：<br>    byte是 [-128 ~ 127] 共可以标识256个不同的数字。<br>    byte类型的最大值是怎么计算出来的？<br>        byte是1个字节，是8个比特位，所以byte可以存储的最大值是：01111111<br>    注意：在计算机当中，一个二进制位最左边的是符号位，当为0时表示正数，<br>    当为1时表示负数。所以byte类型最大值是：01111111<br>    那么是不是2的7次方-1呢？<br>        是不是：10000000（前边是一个二进制） - 1<br>    byte类型最大值是：2的7次方 - 1.</p>
+<p>有几个取值范围需要大家记住：<br>    (1个字节)byte: [-128 ~ 127]<br>    (2个字节)short:[-32768 ~ 32767] 可以表示65536个不同的数字<br>    (4个字节)int: [-2147483648 ~ 2147483647]<br>    (2个字节)char: [0~65535]  可以表示65536个不同的数字<br>short和char实际上容量相同，不过char可以表示更大的数字。<br>因为char表示的是文字，文件没有正负之分，所以char可以表示更大的数字。</p>
+<p>对于8种基本数据类型来说：<br>其中byte,short,int,long,float,double,boolean，这7种类型计算机表示起来比较容易，因为他们都是数字。其中布尔类型只有两个值true和false，实际上true和false分别在C++中对应的是1和0，1为true，false为0。<br>对于char类型来说计算机表示起来比较麻烦，因为char对应的是文字，每一个国家的文字不一样，文字不能直接通过“自然算法”转换成二进制。这个时候怎么办？字符编码诞生了。</p>
+<p>什么是字符编码？<br>    字符编码是人为的定义的一套转换表。<br>    在字符编码中规定了一系列的文字对应的二进制。<br>    字符编码其实本质上就是一本字典，该字段中描述了文字与二进制之间的对照关系。<br>    字符编码是人为规定的。（是某个计算机协会规定的。）<br>    字符编码涉及到编码和解码两个过程，编码和解码的时候必须采用同一套字符编码方式，不然就会出现乱码。</p>
+<p>关于字符编码的发展过程？<br>    起初的时候计算机是不支持文字的，只支持科学计算。实际上计算机起初是为了<br>    战争而开发的，计算导弹的轨道….</p>
+<p>?    后来随着计算机的发展，计算机开始支持文字，最先支持的文字是英文，英文<br>?    对应的字符编码方式是：ASCII码。</p>
+<p>?    ASCII码采用1byte进行存储，因为英文字母是26个。（键盘上所有的键全部算上也<br>?    超不过256个。1byte可以表示256种不同的情况。所以英文本身在计算机方面就占有<br>?    优势。）<br>?    ‘a’ –(采用ASCII码进行编码)-&gt; 01100001<br>?    01100001 –(采用ASCII码进行解码)-&gt; ‘a’<br>?    如果编码和解码采用的不是同一个编码方式，会出现乱码。<br>?    ‘b’ —&gt; 98<br>?    ‘c’ —&gt; 99…<br>?    ‘a’ —&gt; 97</p>
+<p>?    ‘A’ —&gt; 65<br>?    ‘B’ —&gt; 66<br>?    …</p>
+<p>?    ‘0’ —&gt; 48  （这个’0’不是那个0，是文字’0’）<br>?    ‘1’ —&gt; 49<br>?<br>?    随着计算机语言的发展，后来国际标准组织制定了ISO-8859-1编码方式，<br>?    又称为latin-1编码方式，向上兼容ASCII码。但不支持中文。<br>?    后来发展到亚洲，才支持中文，日文，韩文….<br>?    中文这块的编码方式：GB2312&lt;GBK&lt;GB18030 （容量的关系）<br>?    以上编码方式是简体中文。<br>?    繁体中文：big5（台湾使用的是大五码。）<br>?    在java中，java语言为了支持全球所有的文字，采用了一种字符编码方式<br>?    叫做unicode编码。unicode编码统一了全球所有的文字，支持所有文字。<br>?    具体的实现包括：UTF-8 UTF-16 UTF-32….    </p>
+<p>需要记住：<br>    ASCII（’a’是97 ‘A’是65 ‘0’是48…）<br>    ISO-8859-1（latin-1）<br>    GB2312<br>    GBK<br>    GB18030<br>    Big5<br>    unicode（utf8 utf16 utf32）</p>
+<h4 id="布尔型bollean："><a href="#布尔型bollean：" class="headerlink" title="布尔型bollean："></a>布尔型bollean：</h4><p>1、在java语言中boolean类型只有两个值，没有其他值：<br>true和false。<br>不像C或者C++，C语言中1和0也可以表示布尔类型<br>2、boolean类型在实际开发中使用在哪里呢？<br>使用在逻辑判断当中，通常放到条件的位置上（充当条件）</p>
+<h4 id="字符型char："><a href="#字符型char：" class="headerlink" title="字符型char："></a>字符型char：</h4><p>1、char占用2个字节。<br>char可以存储1个汉字吗？<br>可以的，汉字占用2个字节，java中的char类型占用2个字节，正好。<br>2、char的取值范围：[0-65535]<br>3、char采用unicode编码方式。<br>4、char类型的字面量使用单引号括起来。<br>5、char可以存储一个汉字。<br>6、转义字符：<br>java语言中“\”负责转义。<br>\t 表示制表符tab<br>\n 表示制表符回车<br>System.out.println(); 换行<br>System.out.print(); 不换行<br>&#39; 表示一个普通不能再普通的单引号字符 ‘（&#39;联合起来表示一个普通的 ‘）<br>\ 表示一个“普通的反斜杠字符 <br>// 双引号括起来的是字符串<br>System.out.println(“test”);<br>// 希望输出的结果是：”test”<br>// 错误: 需要’)’<br>//System.out.println(“”test””);<br>System.out.println(““test””); //内部的双引号我用中文的行吗？可以。<br>7、整数能否直接赋值给char<br>char x = 97;<br>这个java语句是允许的，并且输出的结果是’a’<br>经过这个测试得出两个结论：</p>
+<ul>
+<li>当一个整数赋值给char类型变量的时候，会自动转换成char字符型，最终的结果是一个字符。</li>
+<li>当一个整数没有超出byte short char的取值范围的时候，这个整数可直接赋值给byte short char类型的变量。</li>
+</ul>
+<h4 id="浮点型float-double"><a href="#浮点型float-double" class="headerlink" title="浮点型float/double:"></a>浮点型float/double:</h4><p>浮点型包括：<br>float            4个字节<br>double        8个字节<br>float是单精度<br>double是双精度<br>double更精确<br>比如说：<br>10.0 / 3 如果采用float来存储的话结果可能是：3.33333<br>10.0 / 3 如果采用double来存储的话结果可能是：3.3333333333333<br>但是需要注意的是，如果用在银行方面或者说使用在财务方面，double<br>也是远远不够的，在java中提供了一种精度更高的类型，这种类型专门<br>使用在财务软件方面：java.math.BigDecimal （不是基本数据类型，属于<br>引用数据类型。）<br>float和double存储数据的时候都是存储的近似值。<br>因为现实世界中有这种无线循环的数据，例如：3.3333333333333….<br>数据实际上是无限循环，但是计算机的内存有限，用一个有限的资源<br>表示无限的数据，只能存储近似值。</p>
+<p>long类型占用8个字节。<br>float类型占用4个字节。<br>注意：任意一个浮点型都比整数型空间大。<br>    float容量 &gt; long容量。<br>java中规定，任何一个浮点型数据默认被当做double来处理。<br>如果想让这个浮点型字面量被当做float类型来处理，那么<br>请在字面量后面添加F/f。<br>1.0 那么1.0默认被当做double类型处理。<br>1.0F 这才是float类型。（1.0f）</p>
+<h4 id="整型byte-short-int-long："><a href="#整型byte-short-int-long：" class="headerlink" title="整型byte/short/int/long："></a>整型byte/short/int/long：</h4><p>整数型在java语言中共4种类型：<br>byte    1个字节  最大值127<br>short    2个字节  最大值32767<br>int    4个字节  2147483647是int最大值，超了这个范围可以使用long类型。<br>long    8个字节<br>1个字节 = 8个二进制位<br>1byte = 8bit<br>对于以上的四个类型来说，最常用的是int。</p>
+<p>在java语言中整数型字面量有4种表示形式：<br>十进制：最常用的。<br>二进制<br>八进制<br>十六进制</p>
+<p>在java中有一条非常重要的结论，必须记住：<br>在任何情况下，整数型的“字面量/数据”默认被当做int类型处理。<br>如果希望该“整数型字面量”被当做long类型来处理，需要在“字面量”后面添加L/l<br>建议使用大写L，因为小写l和1傻傻分不清。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 错误: 整数太大</span></span><br><span class="line"><span class="keyword">long</span> e = <span class="number">2147483648</span>;</span><br></pre></td></tr></table></figure>
+
+<p>在java中，整数型字面量一上来编译器就会将它看做int类型<br>而2147483648已经超出了int的范围，所以在没有赋值之前就出错了。<br>记住，不是e放不下2147483648，e是long类型，完全可以容纳2147483648<br>只不过2147483648本身已经超出了int范围。<br>解决问题：<br>    long e = 2147483648L;</p>
+<ul>
+<li>小容量可以直接赋值给大容量，称为自动类型转换。</li>
+<li>大容量不能直接赋值给小容量，需要使用强制类型转换符进行强转。</li>
+</ul>
+<p>但需要注意的是：<br>加强制类型转换符之后，虽然编译通过了，但是运行的时候可能会损失精度。<br>大容量转换成小容量，要想编译通过，必须加强制类型转换符，进行强制类型转换。<br>但是要记住：编译虽然过了，但是运行时可能损失精度。</p>
+<p>java中有一个语法规则：<br>当这个整数型字面量没有超出byte的取值范围，那么这个整数型字面量可以直接赋值给byte类型的变量。<br>当整数型字面量没有超出short类型取值范围的时候，该字面量可以直接赋值给short。<br>这种语法机制是为了方便写代码，而存在的。<br>byte、char、short做混合运算的时候，各自先转换成int再做运算。</p>
+<p>计算机的数据存储方式：</p>
+<ul>
+<li>计算机在任何情况下都只能识别二进制</li>
+<li>计算机在底层存储数据的时候，一律存储的是“二进制的补码形式”<br>计算机采用补码形式存储数据的原因是：补码形式效率最高。</li>
+<li>补码：<br>实际上是这样的，二进制有：原码 反码 补码 </li>
+<li>记住：<br>对于一个正数来说：二进制原码、反码、补码是同一个，完全相同。</li>
+<li>分析 byte b = (byte)150;  //-106<br>这个b是多少？<br>int类型的4个字节的150的二进制码是什么？<br>00000000 00000000 00000000 10010110<br>将以上的int类型强制类型转为1个字节的byte，最终在计算机中的二进制码是：<br>10010110</li>
+</ul>
+<p>千万要注意：计算机永远存储的都是二进制补码形式。也就是说上面<br>10010110 这个是一个二进制补码形式，你可以采用逆推导的方式推算出<br>这个二进制补码对应的原码是啥！！！！！！<br>10010110 —&gt; 二进制补码形式<br>10010101 —&gt; 二进制反码形式<br>11101010 —&gt; 二进制原码形式 </p>
+<p>计算机数据的自动转换：<br>在类型转换的时候需要遵循规则</p>
+<ul>
+<li>八种基本数据类型中，除 boolean 类型不能转换，剩下七种类型之间都可以进行转换；</li>
+<li>如果整数型字面量没有超出 byte,short,char 的取值范围，可以直接将其赋值给byte,short,char 类型的变    量；</li>
+<li>小容量向大容量转换称为自动类型转换，容量从小到大的排序为：<br>byte &lt; short(char) &lt; int &lt; long &lt; float &lt; double，其中 short和 char<br>都占用两个字节，但是char 可以表示更大的正整数；</li>
+<li>大容量转换成小容量，称为强制类型转换，编写时必须添加“强制类型转换符”，但运行时可能出现精度损失，谨慎使用；</li>
+<li>byte,short,char 类型混合运算时，先各自转换成 int 类型再做运算；</li>
+<li>多种数据类型混合运算，各自先转换成容量最大的那一种再做运算；</li>
+</ul>
+<p>多种数据类型做混合运算的时候，最终的结果类型是“最大容量”对应的类型。<br>boolean &lt; (char/short/byte)int &lt; float &lt; double<br>char+short+byte 这个除外。<br>因为char + short + byte混合运算的时候，会各自先转换成int再做运算。<br>java中规定，int类型和int类型最终的结果还是int类型(最终取整)。</p>
+<p>6、java中的输入和输出：<br>    输出信息到控制台：<br>        System.out.println(…);<br>    在java中怎么接收键盘的输入呢？<br>        前提：java.util.Scanner s = new java.util.Scanner(System.in);<br>        接收一个整数：<br>            int num = s.nextInt();<br>        接收一个字符串：<br>            String str = s.next();<br>        import java.util.Scanner;<br>        Scanner s = new Scanner(System.in);</p>
+<h3 id="7、运算符："><a href="#7、运算符：" class="headerlink" title="7、运算符："></a>7、运算符：</h3><p>1、算术运算符：</p>
+<p><code>+</code> : 求和</p>
+<p><code>-</code> : 相减</p>
+<p><code>*</code> : 乘积</p>
+<p><code>/</code> : 商</p>
+<p><code>%</code> : 求余数（求模）</p>
+<p><code>++</code> : 自加1</p>
+<p><code>--</code> : 自减1</p>
+<pre><code>对于++运算符来说：
+可以出现在变量前，也可以出现在变量后。
+不管出现在变量前还是后，总之++执行结束之后，变量的值一定会自加1。
+* ++出现在变量后：
+ 语法：当++出现在变量后，会先做赋值运算，再自加1
+* ++出现在变量前：
+ 语法：当++出现在变量前的时候，会先进行自加1的运算，然后再赋值。 
+
+2、关系运算符：
+    &gt;    大于
+    &gt;=    大于等于
+    &lt;    小于
+    &lt;=    小于等于
+    ==    等于
+    !=    不等于
+
+    一定要记住一个规则：
+        所有的关系运算符的运算结果都是布尔类型，
+        不是true就是false，不可能是其他值。
+
+    在java语言中:
+        = ： 赋值运算符
+        == ：关系运算符，判断是否相等。
+
+    注意：关系运算符中如果有两个符号的话，两个符号之间不能有空格。
+        &gt;= 这是对的, &gt; = 这是不对的。
+        == 这是对的，= = 这是不对的。
+
+3、逻辑运算符：
+    &amp;    逻辑与（可以翻译成并且）
+    |    逻辑或（可以翻译成或者）
+    !    逻辑非（取反）
+    &amp;&amp;    短路与
+    ||    短路或
+
+    用普通话描述的话：100 大于 99 并且 100 大于 98 ，有道理
+    用代码描述的话：100 &gt; 99 &amp; 100 &gt; 98 --&gt; true
+
+    true &amp; true --&gt; true
+
+    非常重要：
+        逻辑运算符两边要求都是布尔类型，并且最终的运算结果也是布尔类型。
+        这是逻辑运算符的特点。
+
+    100 &amp; true 不行，语法错误。
+    100 &amp; 200 不行，没有这种语法。
+    true &amp; false 这样可以。
+
+    100 &gt; 90 &amp; 100 &gt; 101 --&gt; false
+
+    &amp; 两边都是true，结果才是true
+    | 有一边是true，结果就是true
+
+    关于短路与 &amp;&amp;，短路或 ||（以短路与为例）
+
+        * 短路与&amp;&amp; 和 逻辑与&amp; 的区别
+            首先这两个运算符的运算结果没有任何区别，完全相同。
+            只不过“短路与&amp;&amp;”会发生短路现象。
+
+        * 短路现象
+            右边表达式不执行，这种现象叫做短路现象。
+
+        * 什么时候使用&amp;&amp;，什么时候使用&amp; ？
+            从效率方面来说，&amp;&amp;比&amp;的效率高一些。
+            因为逻辑与&amp;不管第一个表达式结果是什么，第二个表达式一定会执行。(&amp;&amp;更智能)
+
+            以后的开发中，短路与&amp;&amp;和逻辑与还是需要同时并存的。
+                大部分情况下都建议使用短路与&amp;&amp;
+                只有当既需要左边表达式执行，又需要右边表达式执行的时候，才会
+                选择逻辑与&amp;。
+        * 什么时候会发生短路？
+            int x = 10;
+            int y = 11;
+            // 逻辑与&amp;什么时候结果为true（两边都是true，结果才是true）
+            // 左边的 x&gt;y 表达式结果已经是false了，其实整个表达式的结
+            // 果已经确定是false了，按道理来说右边的表达式不应该执行。
+            System.out.println(x &gt; y &amp; x &gt; y++); 
+
+            // 通过这个测试得出：x &gt; y++ 这个表达式执行了。
+            System.out.println(y); // 12
+
+            //测试短路与&amp;&amp;
+            int m = 10;
+            int n = 11;
+            // 使用短路与&amp;&amp;的时候，当左边的表达式为false的时候，右边的表达式不执行
+            // 这种现象被称为短路。
+            System.out.println(m &gt; n &amp;&amp; m &gt; n++);
+            System.out.println(n); // 11
+
+            什么时候发生短路或现象(|| 短路或)？
+            // “或”的时候只要有一边是true，结果就是true。
+            // 所以，当左边的表达式结果是true的时候，右边的表达式不需要执行，此时会短路。
+
+4、赋值运算符：
+    1、赋值运算符包括“基本赋值运算符”和“扩展赋值运算符”：基本的、扩展的。
+    2、基本赋值运算符
+        =
+    3、扩展的赋值运算符
+        +=
+        -=
+        *=
+        /=
+        %=
+        注意：扩展赋值运算符在编写的时候，两个符号之间不能有空格。
+            + =  错误的。
+            += 正确的。
+    4、很重要的语法机制：
+        使用扩展赋值运算符的时候，永远都不会改变运算结果类型。
+        byte x = 100;
+        x += 1;
+        x自诞生以来是byte类型，那么x变量的类型永远都是byte。不会变。
+        不管后面是多大的数字。
+
+    5、赋值运算符“=”右边优先级比较高，先执行右边的表达式
+       然后将表达式执行结束的结果放到左边的“盒子”当中。（赋值）
+
+    6、研究：
+        // i += 10 和 i = i + 10 真的是完全一样吗？
+        // 答案：不一样，只能说相似，其实本质上并不是完全相同。
+        byte x = 100; // 100没有超出byte类型取值范围，可以直接赋值
+        System.out.println(x); // 100
+
+        // 分析：这个代码是否能够编译通过？
+        // 错误: 不兼容的类型: 从int转换到byte可能会有损失
+        //x = x + 1; // 编译器检测到x + 1是int类型，int类型可以直接赋值给byte类型的变量x吗？
+
+        // 使用扩展赋值运算符可以吗？
+        // 可以的，所以得出结论：x += 1 和 x = x + 1不一样。
+        // 其实 x += 1 等同于：x = (byte)(x + 1);
+        x += 1;
+        System.out.println(x); // 101
+
+        // 早就超出byte的取值范围了。
+        x += 199; // x = (byte)(x + 199);
+        System.out.println(x); // 44 （当然会自动损失精度了。）
+
+5、条件运算符（三目运算符）：
+    语法格式：
+        布尔表达式 ? 表达式1 : 表达式2
+
+    执行原理
+        布尔表达式的结果为true时，表达式1的执行结果作为整个表达式的结果。
+        布尔表达式的结果为false时，表达式2的执行结果作为整个表达式的结果。
+
+6、+ 运算符：
+    1、+ 运算符在java语言中有两个作用：
+        作用1：求和
+        作用2：字符串拼接
+
+    2、什么时候求和？什么时候进行字符串的拼接呢？
+        当 + 运算符两边都是数字类型的时候，求和。
+        当 + 运算符两边的“任意一边”是字符串类型，那么这个+会进行字符串拼接操作。
+
+    3、一定要记住：字符串拼接完之后的结果还是一个字符串。
+
+    4、示例：
+        int a = 100;
+        int b = 200;
+        // 注意：当一个表达式当中有多个加号的时候
+        // 遵循“自左向右”的顺序依次执行。（除非额外添加了小括号，小括号的优先级高）
+        // 第一个+先运算，由于第一个+左右两边都是数字，所以会进行求和。
+        // 求和之后结果是300，代码就变成了：System.out.println(300 + &quot;110&quot;);
+        // 那么这个时候，由于+的右边是字符串&quot;110&quot;，所以此时的+会进行字符串拼接。
+        System.out.println(a + b + &quot;110&quot;); // 最后一定是一个字符串：&quot;300110&quot;
+
+        // 先执行小括号当中的程序：b + &quot;110&quot;，这里的+会进行字符串的拼接，
+        // 拼接之后的结果是：&quot;200110&quot;，这个结果是一个字符串类型。
+        // 代码就变成了：System.out.println(a + &quot;200110&quot;);
+        // 这个时候的+还是进行字符串的拼接。最终结果是：&quot;100200110&quot;
+        System.out.println(a + (b + &quot;110&quot;));
+
+        // 在控制台上输出&quot;100+200=300&quot;
+        System.out.println(a + &quot;+&quot; + b + &quot;=&quot; + c);
+
+        在java语言中定义字符串类型的变量
+        // String是字符串类型，并且String类型不属于基本数据类型范畴，属于引用类型。
+        // name是变量名，只要是合法的标识符就行。
+        // &quot;jack&quot; 是一个字符串型字面量。
+        String name = &quot;jack&quot;;
+        // 口诀：加一个双引号&quot;&quot;，然后双引号之间加两个加号：&quot;++&quot;，然后两个加号中间加变量名：&quot;+name+&quot;
+        System.out.println(&quot;登录成功欢迎&quot;+name+&quot;回来&quot;);</code></pre>
+<h3 id="8、控制语句："><a href="#8、控制语句：" class="headerlink" title="8、控制语句："></a>8、控制语句：</h3><p>选择结构<br>        - if,if..else<br>            if语句的语法结构以及运行原理<br>            if语句是分支语句，也可以叫做条件语句。<br>            if语句的语法格式：<br>                第一种写法：<br>                    int a = 100;<br>                    int b = 200;<br>                    if(布尔表达式){<br>                        java语句;<br>                        java语句;<br>                    }<br>                    这里的一个大括号{} 叫做一个分支。<br>                    if 这个单词翻译为如果，所以又叫做条件语句。<br>                    该语法的执行原理是：<br>                        如果布尔表达式的结果是true，则执行大括<br>                        号中的程序，否则大括号中代码不执行。</p>
+<pre><code>            第二种写法：
+                if(布尔表达式)&#123;  // 分支1
+                    java语句;     
+                &#125;else&#123;            // 分支2
+                    java语句;
+                &#125;
+                执行原理：
+                如果布尔表达式的结果是true，则执行分支1，分支2不执行。
+                如果布尔表达式的结果是false， 分支1不执行，执行分支2.
+                以上的这个语句可以保证一定会有一个分支执行。
+                else表示其它。
+
+            第三种写法：
+                if(布尔表达式1)&#123; // 分支1
+                    java语句;
+                &#125;else if(布尔表达式2)&#123; // 分支2
+                    java语句;
+                &#125;else if(布尔表达式3)&#123;
+                    java语句;
+                &#125;else if(布尔表达式4)&#123;
+                    java语句;
+                &#125;....
+                以上if语句的执行原理：
+                    先判断“布尔表达式1”，如果“布尔表达式1”为true，则执行分支1，
+                    然后if语句结束了。
+                    当“布尔表达式1”结果是false，那么会继续判断布尔表达式2的结果，
+                    如果布尔表达式2的结果是true，则执行分支2，然后整个if就结束了。
+
+                    从上往下依次判断，主要看第一个true发生在哪个分支上。
+                    第一个true对应的分支执行，只要一个分支执行，整个if结束。
+
+            第四种写法：
+                if(布尔表达式1)&#123; // 分支1
+                    java语句;
+                &#125;else if(布尔表达式2)&#123; // 分支2
+                    java语句;
+                &#125;else if(布尔表达式3)&#123;
+                    java语句;
+                &#125;else if(布尔表达式4)&#123;
+                    java语句;
+                &#125;else&#123;
+                    java语句; // 以上条件没有一个成立的。这个else就执行了。
+                &#125;</code></pre>
+<p>?<br>            注意：<br>                1、对于if语句来说，在任何情况下只能有1个分支执行，不可能<br>                    存在2个或者更多个分支执行。if语句中只要有1个分支执行了，<br>                    整个if语句就结束了。（对于1个完整的if语句来说的。）</p>
+<pre><code>            2、以上4种语法机制中，凡是带有else分支的，一定可以保证会有
+            一个分支执行。以上4种当中，第一种和第三种没有else分支，这样
+            的语句可能会导致最后一个分支都不执行。第二种和第四种肯定会有
+            1个分支执行。
+
+            3、当分支当中“java语句;”只有1条，那么大括号&#123;&#125;可以省略，但为了
+            可读性，最好不要省略。
+
+            4、控制语句和控制语句之间是可以嵌套的，但是嵌套的时候大家最好
+            一个语句一个语句进行分析，不要冗杂在一起分析。
+                if(true)&#123;
+                    //窍门：分析外面if语句的时候，里面的这个if语句可以看做是普通的一堆java代码。
+                    if(true)&#123;
+                        if(false)&#123;
+
+                        &#125;else&#123;
+                            ....最终走这里了。
+                        &#125;
+                    &#125;else&#123;
+
+                    &#125;
+                &#125;else&#123;
+
+                &#125;
+
+                if()&#123;
+                    // 窍门：分析外面if时，里面的for循环当做普通java代码来看。
+                    for()&#123;
+                        if()&#123;
+                            for()&#123;
+
+                            &#125;
+                        &#125;
+                    &#125;
+                &#125;else&#123;
+                    while()&#123;
+                        if()&#123;
+                            for()&#123;
+
+                            &#125;
+                        &#125;
+                    &#125;
+                &#125;
+
+        示例1：
+            业务要求：
+                1、从键盘上接收一个人的年龄。
+                2、年龄要求为[0-150]，其它值表示非法，需要提示非法信息。
+                3、根据人的年龄来动态的判断这个人属于生命的哪个阶段？
+                    [0-5] 婴幼儿
+                    [6-10] 少儿
+                    [11-18] 少年
+                    [19-35] 青年
+                    [36-55] 中年
+                    [56-150] 老年
+                4、请使用if语句完成以上的业务逻辑。
+
+            String str = &quot;老年&quot;; // 字符串变量默认值是“老年”
+            if(age &lt; 0 || age &gt; 150)&#123;
+                System.out.println(&quot;对不起，年龄值不合法&quot;);
+                //return;
+            &#125; else if(age &lt;= 5)&#123;
+                str = &quot;婴幼儿&quot;;
+            &#125; else if(age &lt;= 10)&#123;
+                str = &quot;少儿&quot;;
+            &#125; else if(age &lt;= 18)&#123;
+                str = &quot;少年&quot;;
+            &#125; else if(age &lt;= 35)&#123;
+                str = &quot;青年&quot;;
+            &#125; else if(age &lt;= 55)&#123;
+                str = &quot;中年&quot;;
+            &#125; 
+            System.out.println(str);
+
+        示例2：
+            业务要求：
+                1、系统接收一个学生的考试成绩，根据考试成绩输出成绩的等级。
+
+                2、等级：
+                    优：[90~100]
+                    良：[80~90) 
+                    中：[70-80)
+                    及格：[60~70)
+                    不及格：[0-60)
+
+                3、要求成绩是一个合法的数字，成绩必须在[0-100]之间，成绩可能带有小数。
+
+            java.util.Scanner s = new java.util.Scanner(System.in);
+            System.out.print(&quot;请输入您的考试成绩：&quot;);
+            // 考试成绩带有小数
+            double score = s.nextDouble();
+            // 判断考试成绩
+            String str = &quot;优&quot;;
+            if(score &lt; 0 || score &gt; 100)&#123;
+                str = &quot;成绩不合法!!!&quot;;
+            &#125;else if(score &lt; 60)&#123;
+                str = &quot;不及格&quot;;
+            &#125;else if(score &lt; 70)&#123;
+                str = &quot;及格&quot;;
+            &#125;else if(score &lt; 80)&#123;
+                str = &quot;中&quot;;
+            &#125;else if(score &lt; 90)&#123;
+                str = &quot;良&quot;;
+            &#125;
+            System.out.println(str);
+
+    - switch
+        switch语句：
+            1、switch语句也是选择语句，也可以叫做分支语句。
+            2、switch语句的语法格式
+
+                switch(值)&#123;
+                case 值1:
+                    java语句;
+                    java语句;...
+                    break;
+                case 值2:
+                    java语句;
+                    java语句;...
+                    break;
+                case 值3:
+                    java语句;
+                    java语句;...
+                    break;
+                default:
+                    java语句;
+                &#125;
+
+                以上是一个完整的switch语句：
+                    其中：break;语句不是必须的。default分支也不是必须的。
+
+                switch语句支持的值:
+                    支持int类型以及String类型。
+                    但一定要注意JDK的版本，JDK8之前不支持String类型，只支持int。
+                    在JDK8之后，switch语句开始支持字符串String类型。
+
+                    switch语句本质上是只支持int和String，但是byte,short,char也可以
+                    使用在switch语句当中，因为byte short char可以进行自动类型转换。
+
+                    switch语句中“值”与“值1”、“值2”比较的时候会使用“==”进行比较。
+
+            3、switch语句的执行原理
+                拿“值”与“值1”进行比较，如果相同，则执行该分支中的java语句，
+                然后遇到&quot;break;&quot;语句，switch语句就结束了。
+
+                如果“值”与“值1”不相等，会继续拿“值”与“值2”进行比较，如果相同，
+                则执行该分支中的java语句，然后遇到break;语句，switch结束。
+
+                注意：如果分支执行了，但是分支最后没有“break;”，此时会发生case
+                穿透现象。
+
+                所有的case都没有匹配成功，那么最后default分支会执行。
+
+                switch中的case可以合并。
+
+            示例：
+                1、系统接收一个学生的考试成绩，根据考试成绩输出成绩的等级。
+
+                2、等级：
+                    优：[90~100]
+                    良：[80~90) 
+                    中：[70-80)
+                    及格：[60~70)
+                    不及格：[0-60)
+
+                3、要求成绩是一个合法的数字，成绩必须在[0-100]之间，成绩可能带有小数。
+
+                必须使用switch语句来完成。
+
+                // 提示用户输入学生成绩
+                java.util.Scanner s = new java.util.Scanner(System.in);
+                System.out.print(&quot;请输入学生成绩：&quot;);
+                double score = s.nextDouble();
+                //System.out.println(score);
+                if(score &lt; 0 || score &gt; 100)&#123;
+                    System.out.println(&quot;您输入的学生成绩不合法，再见！&quot;);
+                    return; 
+                &#125;
+
+                // 程序能够执行到这里说明成绩一定是合法的。
+                // grade的值可能是：0 1 2 3 4 5 6 7 8 9 10
+                // 0 1 2 3 4 5 不及格
+                // 6 及格
+                // 7 中
+                // 8 良
+                // 9 10 优
+
+                int grade = (int)(score / 10); // 95.5/10结果9.55，强转为int结果是9
+                String str = &quot;不及格&quot;;
+                switch(grade)&#123;
+                case 10: case 9:
+                    str = &quot;优&quot;;
+                    break;
+                case 8: 
+                    str = &quot;良&quot;;
+                    break;
+                case 7:
+                    str = &quot;中&quot;;
+                    break;
+                case 6:
+                    str = &quot;及格&quot;;
+                &#125;
+                System.out.println(&quot;该学生的成绩等级为：&quot; + str);
+
+* 循环结构（循环语句的出现就是为了解决代码的复用性）
+    - for
+        1、for循环的语法机制以及运行原理：
+            语法机制：
+                for(初始化表达式; 条件表达式; 更新表达式)&#123;
+                    循环体; // 循环体由java语句构成
+                    java语句;
+                    java语句;
+                    java语句;
+                    java语句;
+                    ....
+                &#125;
+                注意：
+                    第一：初始化表达式最先执行，并且在整个循环中只执行一次。
+                    第二：条件表达式结果必须是一个布尔类型，也就是：true或false
+                执行原理：
+                    先执行初始化表达式，并且初始化表达式只执行1次。
+                    然后判断条件表达式的结果，如果条件表达式结果为true，
+                    则执行循环体。
+                    循环体结束之后，执行更新表达式。
+                    更新完之后，再判断条件表达式的结果，
+                    如果还是true，继续执行循环体。
+
+                    直到更新表达式执行结束之后，再次判断条件时，条件为false，
+                    for循环终止。
+
+                更新表达式的作用是：控制循环的次数，换句话说，更新表达式会更新
+                某个变量的值，这样条件表达式的结果才有可能从true变成false，从而
+                终止for循环的执行，如果确实更新表达式，很有可能会导致死循环。
+
+            2、嵌套使用：
+                * 所有合法的“控制语句”都可以嵌套使用。
+                * for循环嵌套一个for循环执行原理：
+                        for()&#123;
+                            //在分析外层for循环的时候，把里面的for就当做一段普通的java语句/代码.
+                            for()&#123;&#125;
+                        &#125;
+
+            示例：
+                九九乘法表
+
+                1*1=1
+                1*2=2 2*2=4
+                1*3=3 2*3=6 3*3=9
+                1*4=4 2*4=8 3*4=12 4*4=16
+                ....
+                ......
+                1*9=9 2*9=18.............................9*9=81
+
+                以上九九乘法表的特点：
+                    第一个特点：共9行。
+                    第二个特点：第1行1个。第2行2个。第n行n个。
+
+                // 9行，循环9次。
+                for(int i = 1; i &lt;= 9; i++)&#123; // 纵向循环
+                    //System.out.println(i); // i是行号（1~9）
+                    // 负责输出一行的。（内部for循环负责将一行上的全部输出。）
+                    for(int j = 1; j &lt;= i; j++)&#123; // i是行号
+                        System.out.print(j + &quot;*&quot; + i + &quot;=&quot; + i * j + &quot; &quot;);
+                    &#125;
+                    // 换行
+                    System.out.println();
+                &#125;
+
+    - while
+        1、while循环的语法机制以及执行原理
+            语法机制：
+                while(布尔表达式)&#123;
+                    循环体;
+                &#125;
+            执行原理：
+                判断布尔表达式的结果，如果为true就执行循环体，
+                循环体结束之后，再次判断布尔表达式的结果，如果
+                还是true，继续执行循环体，直到布尔表达式结果
+                为false，while循环结束。
+
+        2、while循环有没有可能循环次数为0次？（与do...while区分开）
+            可能。
+            while循环的循环次数是：0~n次。
+
+    - do...while()
+        do..while循环语句的执行原理以及语法机制：
+        语法机制：
+            do &#123;
+                循环体;
+            &#125;while(布尔表达式);
+
+        注意：do..while循环最后的时候别漏掉“分号”
+
+        执行原理：
+            先执行循环体当中的代码，执行一次循环体之后，
+            判断布尔表达式的结果，如果为true，则继续执行
+            循环体，如果为false循环结束。
+
+        对于do..while循环来说，循环体至少执行1次。循环体的执行次数是：1~n次。
+        对于while循环来说，循环体执行次数是：0~n次。
+
+* 控制循环的语句
+    - break
+        1、break;语句比较特殊，特殊在：break语句是一个单词成为一个完整的java语句。
+        另外：continue也是这样，他俩都是一个单词成为一条语句。
+
+        2、break 翻译为折断、弄断。
+
+        3、break;语句可以用在哪里呢？
+            用在两个地方，其它位置不行
+            第一个位置：switch语句当中，用来终止switch语句的执行。
+                用在switch语句当中，防止case穿透现象，用来终止switch。
+
+            第二个位置：break;语句用在循环语句当中，用来终止循环的执行。
+                用在for当中
+                用在while当中
+                用在do....while..当中。
+
+        4、break;语句的执行并不会让整个方法结束，break;语句主要是用来终止离它最近
+        的那个循环语句。
+
+        5、怎么用break;语句终止指定的循环呢？（很少用）
+            第一步：你需要给循环起一个名字，例如：
+                a: for()&#123;
+                    b:for()&#123;
+
+                    &#125;
+                &#125;
+            第二步：终止：break a;
+
+    - continue
+        1、continue翻译为：继续
+        2、continue语句和break语句要对比着学习
+        3、continue语句的作用是：
+            终止当前&quot;本次&quot;循环，直接进入下一次循环继续执行。
+            for()&#123;
+                if()&#123; // 当这个条件成立时，执行continue语句
+                    continue; //当这个continue语句执行时，continue下面的代码不执行，直接进入下一次循环执行。
+                &#125;
+                // 以上的continue一旦执行，以下代码不执行，直接执行更新表达式。
+                code1;
+                code2;
+                code3;
+                code4;
+            &#125;
+
+        4、continue语句后面也可以指定循环
+            a:for(;;更新表达式1)&#123;
+                b:for(;;更新表达式2)&#123;
+                    if()&#123;
+                        continue a;
+                    &#125;
+                    code1;
+                    code2;
+                    code3;
+                &#125;
+            &#125;
+
+    break;语句和return;语句的区别：
+    不是一个级别。
+    break;用来终止switch和离它最近的循环。
+    return;用来终止离它最近的一个方法。</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://xgh-user.github.io/2020/11/09/01%E5%85%B3%E4%BA%8Ejava/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1962,7 +2855,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
